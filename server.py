@@ -1,7 +1,10 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 app = Flask(__name__)
+app = Flask(__name__)
+CORS(app)  # Allow all origins
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///player_stats.db'
 db = SQLAlchemy(app)
 
