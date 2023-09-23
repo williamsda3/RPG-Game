@@ -45,8 +45,16 @@ def get_player(player_id):
 @app.route('/players', methods=['POST'])
 def create_player():
     # Assuming you have a way to generate a unique ID (replace this with your logic)
-    last_player_id = db.session.query(func.max(PlayerStats.id)).scalar()
-    new_player_id = last_player_id + 1 if last_player_id else 1
+   
+    
+    last_player = PlayerStats.query.order_by(PlayerStats.id.desc()).first()
+    if last_player:
+        new_player_id = last_player.id + 1
+    else:
+        new_player_id = 1
+
+    
+   
 
     # Create the new player
     player = PlayerStats(id=new_player_id, hp=10, atk=1, in_lobby=False)
