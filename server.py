@@ -39,17 +39,20 @@ def get_player(player_id):
 
 # Allow the addition of new grocery players to the inventory with information such as name, price, and hp
 
-@app.route('/players',methods=['POST'])
+@app.route('/players', methods=['POST'])
 def create_player():
-    json ={ "atk": 1,"hp": 10, "in_lobby": False}
-    data = json
-    if not data or 'hp' not in data or 'atk' not in data :
-        return jsonify({'error': 'Invalid data'}), 400
+    # Assuming you have a way to generate a unique ID (replace this with your logic)
+    last_player_id = db.session.query(func.max(PlayerStats.id)).scalar()
+    new_player_id = last_player_id + 1 if last_player_id else 1
 
-    player = PlayerStats(hp=data['hp'], atk=data['atk'])
+    # Create the new player
+    player = PlayerStats(id=new_player_id, hp=10, atk=1, in_lobby=False)
+
     db.session.add(player)
     db.session.commit()
-    return jsonify({'message': 'player created successfully'}), 201
+
+    return jsonify({'message': 'player created successfully', "id": new_player_id}), 201
+
 
 
 # Created a function to reduce the players hp as is gets moved to the users Cart
