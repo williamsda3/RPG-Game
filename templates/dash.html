@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to the Dashboard</h1>
+    
+    <button onclick="joinLobby()">Send Invitation</button>
+    <button onclick="getLobbyPlayers()">View Invitations</button>
+    
+    
+
+
+    <script>
+        function getPlayerID() {
+            return fetch(`https://serverr-ztub.onrender.com/players`, {
+                method: 'POST',
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Joined lobby:', data["id"]);
+                return data["id"];
+            })
+            .catch(error => {
+                console.error('Error joining lobby:', error);
+                throw error;
+            });
+        }
+        
+        function joinLobby() {
+            const lobbyID = 7
+            getPlayerID()
+            .then(playerId => {
+                if (playerId) {
+                    fetch(`https://serverr-ztub.onrender.com/players/${playerId}/join_lobby/${lobbyID}`, {
+                        method: 'POST',
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Joined lobby:', data);
+                    })
+                    .catch(error => console.error('Error joining lobby:', error));
+                } else {
+                    console.error('Player ID is undefined. Cannot join lobby.');
+                }
+            })
+            .catch(error => {
+                console.error('Error getting player ID:', error);
+            });
+        }
+
+        
+    function getLobbyPlayers() {
+        const lobbyID = 7
+
+        fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
+          .then(response => response.json())
+          .then(data => {
+            console.log('Lobby players:', data);
+            // Update UI to display the list of lobby players
+            const lobbyPlayerList = document.getElementById('lobbyPlayerList');
+            lobbyPlayerList.innerHTML = '';
+  
+            data.forEach(player => {
+              const listItem = document.createElement('li');
+              listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
+              lobbyPlayerList.appendChild(listItem);
+            });
+          })
+          .catch(error => console.error('Error getting lobby players:', error));
+      }
+    </script>
+    
+  <h2>Lobby Players:</h2>
+  <ul id="lobbyPlayerList"></ul>
+</body>
+</html>

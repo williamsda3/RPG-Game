@@ -1,23 +1,21 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
-
 from flask_cors import CORS
 
-app = Flask(__name__)
+
+# Initializing flask app and configuring database
 app = Flask(__name__)
 CORS(app)  # Allow all origins
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///player_stats.db'
 db = SQLAlchemy(app)
-app.config['JWT_SECRET_KEY'] = 'your_jwt_secret_key'  # Change this to a secret key
-jwt = JWTManager(app)
 
-
+# Creating a table for Player and Invite
 class PlayerStats(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     in_lobby = db.Column(db.Boolean, default=False)  # New field to indicate if a player is in the lobby
     hp = db.Column(db.Integer)
     atk = db.Column(db.Integer)
+    lobby_code = db.Column(db.Integer)
     in_lobby = db.Column(db.Boolean, default=False)
     invitations_sent = db.relationship('Invitation', backref='sender', lazy=True, foreign_keys='Invitation.sender_id')
     invitations_received = db.relationship('Invitation', backref='receiver', lazy=True, foreign_keys='Invitation.receiver_id')
@@ -27,6 +25,7 @@ class PlayerStats(db.Model):
             'id': self.id,
             'hp': self.hp,
             'atk': self.atk,
+            'lobby_code': self.lobby_code,
             'in_lobby': self.in_lobby
         }
         
@@ -49,37 +48,7 @@ class Invitation(db.Model):
 with app.app_context():
     db.create_all()
 
-# Route
-
-# AUTHENTICATION
-
-
-# Sample users (replace with your actual user storage)
-users = {
-    'user1': 'password1',
-    'user2': 'password2'
-}
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-
-    # Check if username and password match (replace with actual user authentication)
-    if users.get(username) == password:
-        access_token = create_access_token(identity=username)
-        return jsonify(access_token=access_token), 200
-    else:
-        return jsonify({'message': 'Invalid credentials'}), 401
-
-@app.route('/protected', methods=['GET'])
-@jwt_required()
-def protected():
-    current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user), 200
-
-
+# Routes for Player info
 
 
 @app.route('/players', methods=['GET'])
@@ -160,19 +129,23 @@ def reset_player(player_id):
     else:
         return jsonify({'error': 'Could not access player..'}), 400
     
-@app.route('/players/<int:player_id>/join_lobby', methods=['POST'])
-def join_lobby(player_id):
+    
+    # Routes for Matching 
+    
+@app.route('/players/<int:player_id>/join_lobby/<int:lobby_code>', methods=['POST'])
+def join_lobby(player_id, lobby_code):
     player = PlayerStats.query.get_or_404(player_id)
     if player:
+        player.lobby_code = lobby_code
         player.in_lobby = True
         db.session.commit()
         return jsonify(player.as_dict()), 200
     else:
         return jsonify({'error': 'Could not access player'}), 400
 
-@app.route('/lobby', methods=['GET'])
-def get_lobby_players():
-    lobby_players = PlayerStats.query.filter_by(in_lobby=True).all()
+@app.route('/lobby/<int:lobby_code>', methods=['GET'])
+def get_lobby_players(lobby_code):
+    lobby_players = PlayerStats.query.filter_by(in_lobby=True, lobby_code = lobby_code).all()
     return jsonify([player.as_dict() for player in lobby_players])
 
 @app.route('/players/<int:sender_id>/invite/<int:receiver_id>', methods=['POST'])
@@ -200,13 +173,6 @@ def check_invitations(receiver_id):
 
     return jsonify({'invitations': [inv.as_dict() for inv in pending_invitations]}), 200
 
-@app.route('/invitations/<int:invitation_id>/accept', methods=['POST'])
-def accept_invitation(invitation_id):
-    invitation = Invitation.query.get_or_404(invitation_id)
-    # Update the invitation status to 'accepted'
-    invitation.status = 'accepted'
-    db.session.commit()
-    return jsonify({'message': 'Invitation accepted successfully'}), 200
 
 
 

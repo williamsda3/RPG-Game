@@ -1,18 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login</title>
+    <title>Login</title>
 </head>
 <body>
-  <h1>Login</h1>
-  <form id="loginForm">
-    <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username"><br>
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password"><br><br>
-    <button type="submit">Login</button>
-  </form>
+    <h1>Login</h1>
+    <form action="/login" method="post">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
 
-  <script src="script.js"></script>
+    <h1>Dashboard</h1>
+    <button onclick="sendInvite()">Send Invitation</button>
+    <button onclick="viewInvites()">View Invitations</button>
+    <ul id="receivedInvitesList"></ul>
+
+    <script>
+        function sendInvite() {
+            const receiverId = prompt('Enter receiver ID:');  // Prompt for receiver ID
+            fetch('/send_invite', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `receiver_id=${receiverId}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            })
+            .catch(error => console.error('Error sending invite:', error));
+        }
+
+        function viewInvites() {
+            fetch('/view_invites')
+            .then(response => response.json())
+            .then(data => {
+                const invitesList = document.getElementById('receivedInvitesList');
+                invitesList.innerHTML = '';
+
+                const receivedInvites = data.received_invites;
+                receivedInvites.forEach(invite => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Sender ID: ${invite.sender_id}`;
+                    invitesList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error viewing invites:', error));
+        }
+    </script>
 </body>
 </html>
