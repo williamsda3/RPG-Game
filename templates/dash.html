@@ -27,6 +27,9 @@
             })
             .then(data => {
                 console.log('Joined lobby:', data["id"]);
+                // After getting the player ID when joining the lobby
+                sessionStorage.setItem('playerID', data["id"]);
+
                 return data["id"];
             })
             .catch(error => {
@@ -36,7 +39,7 @@
         }
         
         function joinLobby() {
-            const lobbyID = 7
+            const lobbyID = 4
             getPlayerID()
             .then(playerId => {
                 if (playerId) {
@@ -63,7 +66,7 @@
         }
 
         function getLobbyPlayers() {
-            const lobbyID = 7;
+            const lobbyID = 4;
         
             fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
                 .then(response => response.json())
@@ -76,9 +79,18 @@
                     // Check the number of players in the lobby
                     const numPlayers = data.length;
         
+                    // Assuming the playerID of the current player is stored in sessionStorage
+                    const currentPlayerID = sessionStorage.getItem('playerID');
+        
                     data.forEach(player => {
                         const listItem = document.createElement('li');
                         listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
+        
+                        // Highlight the current player
+                        if (player.id === parseInt(currentPlayerID)) {
+                            listItem.style.fontWeight = 'bold';
+                        }
+        
                         lobbyPlayerList.appendChild(listItem);
                     });
         
@@ -89,9 +101,61 @@
                 .catch(error => console.error('Error getting lobby players:', error));
         }
         function startMatch() {
-            // Add your logic to start the match when the button is clicked
-            console.log('Match started!');
+            const lobbyID = 4;
+        
+            // Assuming the playerID of the current player is stored in sessionStorage
+            const currentPlayerID = sessionStorage.getItem('playerID');
+        
+            fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 2) {
+                        // Find the other player's playerID
+                        let otherPlayerID;
+
+                    for (const element of data) {
+                        if (element.id !== parseInt(currentPlayerID)) {
+                            otherPlayerID = element.id;
+                            break;
+                        }
+                    }
+
+                if (otherPlayerID) {
+                    console.log('Other player ID:', otherPlayerID);
+
+        
+                            let move = prompt('Enter your move:\n');
+        
+                            if (move == 'a') {
+                                fetch(`https://serverr-ztub.onrender.com/players/${otherPlayerID}/reduce/${1}`, {
+                                    method: 'POST'
+                                }).then(response =>getLobbyPlayers())
+                                
+                            }
+                            else if (move == 'c') {
+
+                                fetch(`https://serverr-ztub.onrender.com/players/${currentPlayerID}/charge`, {
+                                    method: 'POST'
+                                }).then(response =>getLobbyPlayers())
+                            }
+                            // Add more conditions for other moves if needed
+        
+                            // Use the otherPlayerID for further actions in your match
+                            // Add your logic to start the match here
+                        } else {
+                            console.error('Could not find the other player in the lobby.');
+                        }
+                    } else {
+                        console.error('Unexpected number of players in the lobby.');
+                    }
+                })
+                .catch(error => console.error('Error getting lobby players:', error));
         }
+        
+
+        
+           
+      
         
     </script>
     
