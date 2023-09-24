@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from flask_socketio import SocketIO  # Import SocketIO from flask_socketio
+
 
 
 # Initializing flask app and configuring database
@@ -8,6 +10,7 @@ app = Flask(__name__)
 CORS(app)  # Allow all origins
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///player_stats.db'
 db = SQLAlchemy(app)
+socketio = SocketIO(app)
 
 # Creating a table for Player and Invite
 class PlayerStats(db.Model):
@@ -175,7 +178,6 @@ def check_invitations(receiver_id):
 
 
 
-socketio = SocketIO(app)
 
 @app.route('/')
 def index():
