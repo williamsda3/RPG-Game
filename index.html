@@ -9,6 +9,8 @@
   <button onclick="getLobbyPlayers()">Get Lobby Players</button>
   <button onclick="sendInvitation()">Send Invitation</button>
   <button onclick="selectPlayerForBattle()">Select Player for Battle</button>
+  <ul id="pendingInvitationsList"></ul>
+
 
   <script>
     function getPlayerID() {
@@ -80,7 +82,7 @@
         getPlayerID()
           .then(senderId => {
             // Replace receiverId with the actual receiver's ID
-            const receiverId = 3;  // Replace with the actual receiver's ID
+            const receiverId = 1;  // Replace with the actual receiver's ID
             
             fetch(`https://serverr-ztub.onrender.com/players/${senderId}/invite/${receiverId}`, {
               method: 'POST'
@@ -106,7 +108,7 @@
       
       function checkInvitations() {
         // Replace receiverId with the actual receiver's ID
-        const receiverId = 3;  // Replace with the actual receiver's ID
+        const receiverId = 1;  // Replace with the actual receiver's ID
       
         fetch(`https://serverr-ztub.onrender.com/players/${receiverId}/check_invitations`)
           .then(response => response.json())
@@ -121,8 +123,35 @@
       }
       
       // Poll every 10 seconds (adjust as needed)
-      setInterval(checkInvitations, 10000);
-      
+      setInterval(getPendingInvitations, 10000);
+    
+     function getPendingInvitations() {
+      const receiverId = 1;  // Replace with the actual receiver's ID
+    
+      fetch(`https://serverr-ztub.onrender.com/players/${receiverId}/check_invitations`)
+        .then(response => response.json())
+        .then(data => {
+          const invitations = data.invitations;
+          if (invitations.length > 0) {
+            console.log('Pending invitations:', invitations);
+            // Update the UI to display the pending invitations
+            displayPendingInvitations(invitations);
+          }
+        })
+        .catch(error => console.error('Error getting pending invitations:', error));
+    }
+    
+    function displayPendingInvitations(invitations) {
+      const invitationsList = document.getElementById('pendingInvitationsList');
+      invitationsList.innerHTML = '';
+    
+      invitations.forEach(invitation => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `Invitation ID: ${invitation.id}, Sender ID: ${invitation.sender_id}`;
+        invitationsList.appendChild(listItem);
+      });
+    }
+    
 
     function selectPlayerForBattle() {
       // Implement logic to allow player to select another player for battle

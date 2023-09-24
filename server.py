@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -7,6 +9,9 @@ app = Flask(__name__)
 CORS(app)  # Allow all origins
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///player_stats.db'
 db = SQLAlchemy(app)
+app.config['JWT_SECRET_KEY'] = 'your_jwt_secret_key'  # Change this to a secret key
+jwt = JWTManager(app)
+
 
 class PlayerStats(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -45,6 +50,36 @@ with app.app_context():
     db.create_all()
 
 # Route
+
+# AUTHENTICATION
+
+
+# Sample users (replace with your actual user storage)
+users = {
+    'user1': 'password1',
+    'user2': 'password2'
+}
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    # Check if username and password match (replace with actual user authentication)
+    if users.get(username) == password:
+        access_token = create_access_token(identity=username)
+        return jsonify(access_token=access_token), 200
+    else:
+        return jsonify({'message': 'Invalid credentials'}), 401
+
+@app.route('/protected', methods=['GET'])
+@jwt_required()
+def protected():
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
+
+
 
 
 @app.route('/players', methods=['GET'])
@@ -164,6 +199,15 @@ def check_invitations(receiver_id):
     pending_invitations = Invitation.query.filter_by(receiver_id=receiver_id, status='pending').all()
 
     return jsonify({'invitations': [inv.as_dict() for inv in pending_invitations]}), 200
+
+@app.route('/invitations/<int:invitation_id>/accept', methods=['POST'])
+def accept_invitation(invitation_id):
+    invitation = Invitation.query.get_or_404(invitation_id)
+    # Update the invitation status to 'accepted'
+    invitation.status = 'accepted'
+    db.session.commit()
+    return jsonify({'message': 'Invitation accepted successfully'}), 200
+
 
 
 if __name__ == '__main__':
