@@ -175,6 +175,20 @@ def check_invitations(receiver_id):
 
 
 
+socketio = SocketIO(app)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@socketio.on('start_match')
+def start_match():
+    # Broadcast the start match event to all connected clients
+    socketio.emit('match_started', broadcast=True)
+
+
+
 
 if __name__ == '__main__':
     app.run( debug=True)
+    socketio.run(app, debug=True)

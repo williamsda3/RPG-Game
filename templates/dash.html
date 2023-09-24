@@ -6,8 +6,8 @@
 <body>
     <h1>Welcome to the Dashboard</h1>
     
-    <button onclick="joinLobby()">Send Invitation</button>
-    <button onclick="getLobbyPlayers()">View Invitations</button>
+    <button onclick="joinLobby()">Join Lobby</button>
+    <button onclick="getLobbyPlayers()">View Players In Lobby</button>
     
     
 
@@ -60,29 +60,53 @@
             });
         }
 
+        function getLobbyPlayers() {
+            const lobbyID = 7;
         
-    function getLobbyPlayers() {
-        const lobbyID = 7
+            fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Lobby players:', data);
+                    // Update UI to display the list of lobby players
+                    const lobbyPlayerList = document.getElementById('lobbyPlayerList');
+                    lobbyPlayerList.innerHTML = '';
+        
+                    // Check the number of players in the lobby
+                    const numPlayers = data.length;
+        
+                    data.forEach(player => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
+                        lobbyPlayerList.appendChild(listItem);
+                    });
+        
+                    // Toggle the visibility of the "Start Match" button
+                    const startMatchButton = document.getElementById('startMatchButton');
+                    startMatchButton.style.display = numPlayers === 2 ? 'block' : 'none';
+                })
+                .catch(error => console.error('Error getting lobby players:', error));
+        }
+        function startMatch() {
+            // Add your logic to start the match when the button is clicked
+            console.log('Match started!');
+            socket.emit('start_match');
+        }
+        
+        const socket = io.connect('https://serverr-ztub.onrender.com');  // Adjust the URL to your server
 
-        fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
-          .then(response => response.json())
-          .then(data => {
-            console.log('Lobby players:', data);
-            // Update UI to display the list of lobby players
-            const lobbyPlayerList = document.getElementById('lobbyPlayerList');
-            lobbyPlayerList.innerHTML = '';
-  
-            data.forEach(player => {
-              const listItem = document.createElement('li');
-              listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
-              lobbyPlayerList.appendChild(listItem);
-            });
-          })
-          .catch(error => console.error('Error getting lobby players:', error));
-      }
+
+        socket.on('match_started', () => {
+            // Handle match start event
+            console.log('Match started!');
+            // Add your logic to synchronize actions for both players
+        });
+
+        
     </script>
     
   <h2>Lobby Players:</h2>
   <ul id="lobbyPlayerList"></ul>
+  <button id="startMatchButton" style="display: none;" onclick="startMatch()">Start Match</button>
+
 </body>
 </html>
