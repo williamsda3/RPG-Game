@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from flask_socketio import SocketIO  # Import SocketIO from flask_socketio
+# from flask_socketio import SocketIO  # Import SocketIO from flask_socketio
 
 
 
@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)  # Allow all origins
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///player_stats.db'
 db = SQLAlchemy(app)
-socketio = SocketIO(app)
+
 
 # Creating a table for Player and Invite
 class PlayerStats(db.Model):
@@ -179,18 +179,9 @@ def check_invitations(receiver_id):
 
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@socketio.on('start_match')
-def start_match():
-    # Broadcast the start match event to all connected clients
-    socketio.emit('match_started', broadcast=True)
 
 
 
 
 if __name__ == '__main__':
     app.run( debug=True)
-    socketio.run(app, debug=True)

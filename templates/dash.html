@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
+
     <title>Dashboard</title>
 </head>
 <body>
@@ -89,18 +91,7 @@
         function startMatch() {
             // Add your logic to start the match when the button is clicked
             console.log('Match started!');
-            socket.emit('start_match');
         }
-        
-        const socket = io.connect('https://serverr-ztub.onrender.com');  // Adjust the URL to your server
-
-
-        socket.on('match_started', () => {
-            // Handle match start event
-            console.log('Match started!');
-            // Add your logic to synchronize actions for both players
-        });
-
         
     </script>
     
