@@ -7,6 +7,7 @@
   <h1>Welcome to the Player Lobby</h1>
   <button onclick="joinLobby()">Join Lobby</button>
   <button onclick="getLobbyPlayers()">Get Lobby Players</button>
+  <button onclick="sendInvitation()">Send Invitation</button>
   <button onclick="selectPlayerForBattle()">Select Player for Battle</button>
 
   <script>
@@ -75,6 +76,53 @@
         })
         .catch(error => console.error('Error getting lobby players:', error));
     }
+    function sendInvitation() {
+        getPlayerID()
+          .then(senderId => {
+            // Replace receiverId with the actual receiver's ID
+            const receiverId = 3;  // Replace with the actual receiver's ID
+            
+            fetch(`https://serverr-ztub.onrender.com/players/${senderId}/invite/${receiverId}`, {
+              method: 'POST'
+            })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.json();
+            })
+            .then(data => {
+              console.log('Invitation sent successfully:', data.message);
+            })
+            .catch(error => {
+              console.error('Error sending invitation:', error);
+            });
+          })
+          .catch(error => {
+            console.error('Error getting sender ID:', error);
+          });
+      }
+      
+      
+      function checkInvitations() {
+        // Replace receiverId with the actual receiver's ID
+        const receiverId = 3;  // Replace with the actual receiver's ID
+      
+        fetch(`https://serverr-ztub.onrender.com/players/${receiverId}/check_invitations`)
+          .then(response => response.json())
+          .then(data => {
+            const invitations = data.invitations;
+            if (invitations.length > 0) {
+              console.log('You have received new invitations:', invitations);
+              // Handle the received invitations (e.g., display a notification to the user)
+            }
+          })
+          .catch(error => console.error('Error checking invitations:', error));
+      }
+      
+      // Poll every 10 seconds (adjust as needed)
+      setInterval(checkInvitations, 10000);
+      
 
     function selectPlayerForBattle() {
       // Implement logic to allow player to select another player for battle

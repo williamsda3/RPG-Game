@@ -13,7 +13,10 @@ class PlayerStats(db.Model):
     in_lobby = db.Column(db.Boolean, default=False)  # New field to indicate if a player is in the lobby
     hp = db.Column(db.Integer)
     atk = db.Column(db.Integer)
-
+    in_lobby = db.Column(db.Boolean, default=False)
+    invitations_sent = db.relationship('Invitation', backref='sender', lazy=True, foreign_keys='Invitation.sender_id')
+    invitations_received = db.relationship('Invitation', backref='receiver', lazy=True, foreign_keys='Invitation.receiver_id')
+    
     def as_dict(self):
         return {
             'id': self.id,
@@ -21,6 +24,21 @@ class PlayerStats(db.Model):
             'atk': self.atk,
             'in_lobby': self.in_lobby
         }
+        
+class Invitation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('player_stats.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('player_stats.id'), nullable=False)
+    status = db.Column(db.String(20), default='pending')  # 'pending', 'accepted', 'rejected'
+
+    def as_dict(self):
+        return {
+            'id': self.id,
+            'sender_id': self.sender_id,
+            'receiver_id': self.receiver_id,
+            'status': self.status
+        }
+
 
 # Initialize the database
 with app.app_context():
@@ -122,6 +140,30 @@ def get_lobby_players():
     lobby_players = PlayerStats.query.filter_by(in_lobby=True).all()
     return jsonify([player.as_dict() for player in lobby_players])
 
+@app.route('/players/<int:sender_id>/invite/<int:receiver_id>', methods=['POST'])
+def send_invitation(sender_id, receiver_id):
+    # Check if both sender_id and receiver_id are valid players
+    sender = PlayerStats.query.get_or_404(sender_id)
+    receiver = PlayerStats.query.get_or_404(receiver_id)
+
+    # Check if an invitation between these players already exists
+    existing_invitation = Invitation.query.filter_by(sender_id=sender_id, receiver_id=receiver_id).first()
+    if existing_invitation:
+        return jsonify({'message': 'Invitation already sent.'}), 400
+
+    # Create a new invitation
+    new_invitation = Invitation(sender_id=sender_id, receiver_id=receiver_id)
+    db.session.add(new_invitation)
+    db.session.commit()
+
+    return jsonify({'message': 'Invitation sent successfully'}), 200
+
+@app.route('/players/<int:receiver_id>/check_invitations', methods=['GET'])
+def check_invitations(receiver_id):
+    # Check if there are any pending invitations for the receiver
+    pending_invitations = Invitation.query.filter_by(receiver_id=receiver_id, status='pending').all()
+
+    return jsonify({'invitations': [inv.as_dict() for inv in pending_invitations]}), 200
 
 
 if __name__ == '__main__':
