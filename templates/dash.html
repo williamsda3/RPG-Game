@@ -15,8 +15,12 @@
 
 
     <script>
-        function getLobbyID(){
-            lobbyID = prompt("Enter your lobbyID");
+        let lobbyID = null; // Variable to store the lobby ID
+
+        function getLobbyID() {
+            if (!lobbyID) {
+                lobbyID = prompt("Enter your lobbyID");
+            }
             return lobbyID;
         }
         function getPlayerID() {
@@ -105,7 +109,7 @@
                 .catch(error => console.error('Error getting lobby players:', error));
         }
         function startMatch() {
-            const lobbyID = 4;
+            const lobbyID = getLobbyID();
         
             // Assuming the playerID of the current player is stored in sessionStorage
             const currentPlayerID = sessionStorage.getItem('playerID');
