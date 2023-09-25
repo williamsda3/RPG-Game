@@ -159,8 +159,11 @@
                 })
                 .catch(error => console.error('Error getting lobby players:', error));
 
-               // Function to check for updates by polling the server
-            function pollForUpdates() {
+          
+
+        }
+             // Function to check for updates by polling the server
+             function pollForUpdates() {
                 const lobbyID = getLobbyID();
 
                 // Set an interval to poll the server every 5 seconds (adjust as needed)
@@ -181,9 +184,6 @@
 
             // Call the function to start polling for updates
             pollForUpdates();
-
-        }
-        
 
        
            
