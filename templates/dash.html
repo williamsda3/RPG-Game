@@ -159,11 +159,33 @@
                 })
                 .catch(error => console.error('Error getting lobby players:', error));
 
-               
+               // Function to check for updates by polling the server
+            function pollForUpdates() {
+                const lobbyID = getLobbyID();
+
+                // Set an interval to poll the server every 5 seconds (adjust as needed)
+                setInterval(() => {
+                    fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Process the data and display notifications as needed
+                            // Compare the current state with the previous state to determine updates
+                            // Display notifications for any updates
+
+                            // For example, assuming the data contains player stats, you can do:
+                         console.log(data);
+                        })
+                        .catch(error => console.error('Error polling for updates:', error));
+                }, 5000);  // Poll every 5 seconds (adjust as needed)
+            }
+
+            // Call the function to start polling for updates
+            pollForUpdates();
+
         }
         
 
-        setInterval(getLobbyPlayers(); prompt("test");, 5000);
+       
            
       
         
