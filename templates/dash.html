@@ -176,6 +176,26 @@
                             // Display notifications for any updates
 
                             // For example, assuming the data contains player stats, you can do:
+
+                            const playerStats = document.getElementById('lobbyPlayerList');
+                            playerStats.innerHTML = '';
+                
+                            // Check the number of players in the lobby
+                
+                            // Assuming the playerID of the current player is stored in sessionStorage
+                            const currentPlayerID = sessionStorage.getItem('playerID');
+                
+                            data.forEach(player => {
+                                const listItem = document.createElement('li');
+                                listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
+                
+                                // Highlight the current player
+                                if (player.id === parseInt(currentPlayerID)) {
+                                    listItem.style.fontWeight = 'bold';
+                                }
+                
+                                lobbyPlayerList.appendChild(listItem);
+                            });
                          console.log(data);
                         })
                         .catch(error => console.error('Error polling for updates:', error));
@@ -193,6 +213,8 @@
     
   <h2>Lobby Players:</h2>
   <ul id="lobbyPlayerList"></ul>
+  <ul id="playerStats"></ul>
+
   <button id="startMatchButton" style="display: none;" onclick="startMatch()">Start Match</button>
 
 </body>
