@@ -165,42 +165,36 @@
              // Function to check for updates by polling the server
              function pollForUpdates() {
                 const lobbyID = getLobbyID();
-
+            
                 // Set an interval to poll the server every 5 seconds (adjust as needed)
                 setInterval(() => {
                     fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
                         .then(response => response.json())
                         .then(data => {
-                            // Process the data and display notifications as needed
-                            // Compare the current state with the previous state to determine updates
-                            // Display notifications for any updates
-
-                            // For example, assuming the data contains player stats, you can do:
-
-                            const playerStats = document.getElementById('playerStats');
-                            playerStats.innerHTML = '';
-                
-                            // Check the number of players in the lobby
-                
                             // Assuming the playerID of the current player is stored in sessionStorage
                             const currentPlayerID = sessionStorage.getItem('playerID');
-                
+            
+                            // Update UI to display the list of lobby players
+                            const lobbyPlayerList = document.getElementById('lobbyPlayerList');
+                            lobbyPlayerList.innerHTML = '';  // Clear the existing content
+            
                             data.forEach(player => {
                                 const listItem = document.createElement('li');
                                 listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
-                
+            
                                 // Highlight the current player
                                 if (player.id === parseInt(currentPlayerID)) {
                                     listItem.style.fontWeight = 'bold';
                                 }
-                
+            
                                 lobbyPlayerList.appendChild(listItem);
                             });
-                         console.log(data);
+                            console.log(data);
                         })
                         .catch(error => console.error('Error polling for updates:', error));
                 }, 5000);  // Poll every 5 seconds (adjust as needed)
             }
+            
 
             // Call the function to start polling for updates
             pollForUpdates();
