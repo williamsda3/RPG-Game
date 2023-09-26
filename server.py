@@ -19,6 +19,7 @@ class PlayerStats(db.Model):
     in_lobby = db.Column(db.Boolean, default=False)  # New field to indicate if a player is in the lobby
     hp = db.Column(db.Integer)
     atk = db.Column(db.Integer)
+    latest_move = db.Column(db.String(length=255))
     lobby_code = db.Column(db.Integer)
     in_lobby = db.Column(db.Boolean, default=False)
     invitations_sent = db.relationship('Invitation', backref='sender', lazy=True, foreign_keys='Invitation.sender_id')
@@ -241,6 +242,28 @@ def view_invites():
         return jsonify({'received_invites': received_invites})
     else:
         return 'User not authenticated.'
+
+# Player Input Routes:
+
+@app.route('/players/<int:player_id>/post_move/<string:player_move>', methods=['POST'])
+def post_move(player_id, player_move):
+    # Assuming you have a way to generate a unique ID (replace this with your logic)
+    player = PlayerStats.query.get_or_404(player_id)
+    if player:
+     player.latest_move = player_move
+     db.session.commit()
+     
+@app.route('/players/<int:player_id>/get_move/', methods=['GET'])
+def post_move(player_id):
+    # Assuming you have a way to generate a unique ID (replace this with your logic)
+    player = PlayerStats.query.get_or_404(player_id)
+    if player:
+        return jsonify({'move': player.latest_move,})
+
+
+    
+
+    
 
 
 
