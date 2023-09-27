@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+import requests
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Change this to a secure secret key
@@ -39,7 +41,8 @@ def login():
 
 @app.route('/player', methods=['GET'])
 def player():
-    
+    response = requests.get("https://site-olk2.onrender.com/players/get_opponent")
+    data = response.json()
     return render_template('play.html')
 
 @app.route('/dashboard')
