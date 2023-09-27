@@ -1,0 +1,228 @@
+@Import Url('Https://Fonts.Googleapis.Com/Css2?Family=Nunito&Display=Swap');
+* {
+Margin: 0;
+Padding: 0;
+Box-Sizing: Inherit;
+}
+Html {
+Font-Size: 62.5%;
+Box-Sizing: Border-Box;
+}
+Body {
+Font-Family: 'Nunito', Sans-Serif;
+Font-Weight: 400;
+Height: 100vh;
+Color: #333;
+Background-Image: Linear-Gradient(To Top Left, #368182 15%, #f4d58d 100%);
+Display: Flex;
+Align-Items: Center;
+Justify-Content: Center;
+}
+section{
+    position: flex;
+   
+}
+#overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+  }
+
+#p1choice{
+    position: flex;
+    margin-top: 10%;
+}
+#cards{
+    height: 20rem;
+    margin-top: 60%;
+    margin-right: 40%;
+    margin-top: 20%;
+    
+}
+#timer{
+    border-color: #ffffff;
+    border-width: 2px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration-color: #368182;
+    font-size: 15px; 
+
+
+}
+
+/* LAYOUT */
+Main {
+Position: Relative;
+Width: 130rem;
+Height: 70rem;
+Background-Color: #fff;
+Backdrop-Filter: Blur(200px);
+Filter: Blur();
+Box-Shadow: 0 3rem 5rem Rgba(0, 0, 0, 0.25);
+Border-Radius: 9px;
+Overflow: Hidden;
+Display: Flex;
+}
+.Player {
+Flex: 50%;
+Padding: 9rem;
+Display: Flex;
+Flex-Direction: Column;
+Align-Items: Center;
+Transition: All 0.75s;
+font-family: 'Nunito', Sans-Serif;;
+}
+/* ELEMENTS */
+.Name {
+Position: Relative;
+Font-Size: 4rem;
+Text-Transform: Uppercase;
+Letter-Spacing: 1px;
+Word-Spacing: 2px;
+Font-Weight: 100;
+Margin-Bottom: 1rem;
+}
+#HP{
+    position: flex;
+ margin-right: 100%;
+ transition-property: background-color;
+    transition-duration: 3s;
+}
+#HP1{
+    position: flex;
+    margin-left: 80%;
+    transition-property: background-color;
+    transition-duration: 1s;
+}
+#p1HP{
+    transition-property: color;
+    transition-duration: 1s;
+}
+#p2HP{
+    transition-property: color;
+    transition-duration: 1s;
+}
+#p1PWR{
+    transition-property: color;
+    transition-duration: 1s;
+}
+#p2PWR{
+    transition-property: color;
+    transition-duration: 1s;
+}
+#timer{
+    position: flex;
+    margin-left: 135%;
+}
+img {
+    width: 100%;
+    height: auto;
+    max-width: 150px;
+  }
+  
+.Score {
+Font-Size: 8rem;
+Font-Weight: 300;
+Color: #C7365f;
+Margin-Bottom: Auto;
+}
+.Player--Active {
+Background-Color: #fff
+}
+.Player--Active .Name {
+Font-Weight: 00;
+}
+.Player--Active .Score {
+Font-Weight: 400;
+}
+.Player--Active .Current {
+Opacity: 1;
+}
+.Current {
+Background-Color: #ffe6a7;
+Opacity: 0.8;
+Border-Radius: 9px;
+Color: #Fff;
+Width: 65%;
+Padding: 2rem;
+Text-Align: Center;
+Transition: All 0.75s;
+}
+.Current-Label {
+Text-Transform: Uppercase;
+Margin-Bottom: 1rem;
+Font-Size: 1.7rem;
+Color: #Ddd;
+}
+.Current-Score {
+Font-Size: 3.5rem;
+}
+/* ABSOLUTE POSITIONED ELEMENTS */
+.Btn {
+Position: Absolute;
+Left: 50%;
+Transform: TranslateX(-50%);
+Color: #444;
+
+Border: None;
+Font-Family: Inherit;
+Font-Size: 1.8rem;
+Text-Transform: Uppercase;
+Cursor: Pointer;
+Font-Weight: 400;
+Transition: All 0.2s;
+Background-Color: White;
+Background-Color: Rgba(255, 255, 255, 0.6);
+Backdrop-Filter: Blur(10px);
+Padding: 0.7rem 2.5rem;
+Border-Radius: 50rem;
+Box-Shadow: 0 1.75rem 3.5rem Rgba(0, 0, 0, 0.1);
+}
+.Btn:hover{
+    background:#fff;
+    color:#368182;
+    
+  }
+
+ 
+.Btn::First-Letter {
+Font-Size: 2.4rem;
+Display: Inline-Block;
+Margin-Right: 0.7rem;
+}
+.Btn--New {
+Top: 4rem;
+}
+.Btn--Roll {
+Top: 39.3rem;
+}
+.Btn--Hold {
+Top: 46.1rem;
+}
+.Btn:active {
+Transform: Translate(-50%, 3px);
+Box-Shadow: 0 1rem 2rem Rgba(0, 0, 0, 0.15);
+}
+.Btn:focus {
+Outline: None;
+}
+
+
+.Player--Winner {
+Background-Color: #2f2f2f;
+}
+.Player--Winner .Name {
+Font-Weight: 700;
+Color: #C7365f;
+}
+.Hidden {
+Display: None;
+}
