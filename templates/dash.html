@@ -124,7 +124,7 @@
                     for (const element of data) {
                         if (element.id !== parseInt(currentPlayerID)) {
                             otherPlayerID = element.id;
-                            sessionStorage.setItem('opponentID', otherPlayerID);
+                            
 
                             break;
                         }
@@ -132,6 +132,7 @@
 
                 if (otherPlayerID) {
                     console.log('Other player ID:', otherPlayerID);
+                    sessionStorage.setItem('opponentID', otherPlayerID);
 
                     fetch(`https://serverr-ztub.onrender.com/players/set_opponent/${currentPlayerID}/${otherPlayerID}`, {
                         method: 'POST'
