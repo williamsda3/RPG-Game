@@ -9,51 +9,24 @@
     
     <script> 
 
-        function startMatch() {
-            const lobbyID = getLobbyID();
+       
         
             // Assuming the playerID of the current player is stored in sessionStorage
             const currentPlayerID = sessionStorage.getItem('playerID');
-        
-            fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.length === 2) {
-                        // Find the other player's playerID
-                        let otherPlayerID;
+            const opponentID = sessionStorage.getItem('opponentID');
 
-                    for (const element of data) {
-                        if (element.id !== parseInt(currentPlayerID)) {
-                            otherPlayerID = element.id;
-                            break;
-                        }
-                    }
+                 console.log(currentPlayerID)
+                 console.log(opponentID)
 
-                if (otherPlayerID) {
-                    console.log('Other player ID:', otherPlayerID);
-
-        
                    // fetch(`https://serverr-ztub.onrender.com/players/`, {
                     //    method: 'POST'
                     //}).then(response =>getLobbyPlayers())
                             // Add more conditions for other moves if needed
         
                             // Use the otherPlayerID for further actions in your match
-                            // Add your logic to start the match here
-                        } else {
-                            console.error('Could not find the other player in the lobby.');
-                        }
-                    } else {
-                        console.error('Unexpected number of players in the lobby.');
-                    }
-                })
-                .catch(error => console.error('Error getting lobby players:', error));
+                       
 
-          
-
-        }
-
-        startMatch();
+        
     </script>
 </body>
 </html>
