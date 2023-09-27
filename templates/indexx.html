@@ -491,6 +491,7 @@ function getLobbyID() {
     }
     return lobbyID;
 }
+getLobbyID()
 function getPlayerID() {
     return fetch(`https://serverr-ztub.onrender.com/players`, {
         method: 'POST',
@@ -513,7 +514,7 @@ function getPlayerID() {
         throw error;
     });
 }
-
+getPlayerID()
 function joinLobby() {
     const lobbyID = getLobbyID(); 
     getPlayerID()
@@ -540,7 +541,7 @@ function joinLobby() {
         console.error('Error getting player ID:', error);
     });
 }
-
+joinLobby();
 function getLobbyPlayers() {
     const lobbyID = getLobbyID();
 
@@ -579,6 +580,7 @@ function getLobbyPlayers() {
         })
         .catch(error => console.error('Error getting lobby players:', error));
 }
+getLobbyPlayers()
 function startMatch() {
     const lobbyID = getLobbyID();
 
@@ -635,7 +637,7 @@ function startMatch() {
   
 
 }
-
+startMatch();
 function pollForUpdates() {
     const lobbyID = getLobbyID();
 
