@@ -39,7 +39,7 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/player', methods=['GET'])
+@app.route('/play.html', methods=['GET'])
 def player():
    
     return render_template('play.html')
