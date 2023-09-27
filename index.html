@@ -1,167 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Player Lobby</title>
-</head>
-<body>
-  <h1>Welcome to the Player Lobby</h1>
-  <button onclick="joinLobby()">Join Lobby</button>
-  <button onclick="getLobbyPlayers()">Get Lobby Players</button>
-  <button onclick="sendInvitation()">Send Invitation</button>
-  <button onclick="selectPlayerForBattle()">Select Player for Battle</button>
-  <ul id="pendingInvitationsList"></ul>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="single.css">
+    <script src="https://kit.fontawesome.com/f2315f2eaa.js" crossorigin="anonymous"></script>
 
-
-  <script>
-    function getPlayerID() {
-        return fetch(`https://serverr-ztub.onrender.com/players`, {
-            method: 'POST',
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Joined lobby:', data["id"]);
-            return data["id"];
-        })
-        .catch(error => {
-            console.error('Error joining lobby:', error);
-            throw error;
-        });
-    }
-    
-    function joinLobby() {
-        getPlayerID()
-        .then(playerId => {
-            if (playerId) {
-                fetch(`https://serverr-ztub.onrender.com/players/${playerId}/join_lobby`, {
-                    method: 'POST',
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Joined lobby:', data);
-                })
-                .catch(error => console.error('Error joining lobby:', error));
-            } else {
-                console.error('Player ID is undefined. Cannot join lobby.');
-            }
-        })
-        .catch(error => {
-            console.error('Error getting player ID:', error);
-        });
-    }
-    
+   
+<Title>MMMMMMMMMM</Title>
+</Head>
+<Body>
+<Main id="game">
     
 
-    function getLobbyPlayers() {
-      fetch('https://serverr-ztub.onrender.com/lobby')
-        .then(response => response.json())
-        .then(data => {
-          console.log('Lobby players:', data);
-          // Update UI to display the list of lobby players
-          const lobbyPlayerList = document.getElementById('lobbyPlayerList');
-          lobbyPlayerList.innerHTML = '';
+    <Section Class="Player Player--0 Player--Active">
+        <H2 Class="Name" Id="Name--0">Player 1</H2>
+        <br>
+        <br>
+        
+        <h2 id="p1HP">  </h2>
+        <br />
+        <br>
+        <h2 id="p1PWR">  </h2><textarea id="timer" cols="45" rows="4"></textarea>
+        <i class="" id="p1Wait"></i> 
+        <br><br>
+        <img src= " " alt="" id="p1Pic">
+        
+        
+        <!--<textarea id="p1choice" cols="30" rows="10"></textarea>
+        <div  id="cards">
+           <!-  <button class="card" id="ATK"> ATK </button>
+            <button class="card" id="BLK"> BLK </button>
+            <button class="card" id="CRG"> CRG </button>-->
+        
+        </Section>
+         <a href="character_select.html">2 Player</a>
+         
+        
+        <Section Class="Player Player--1">
+        <H2 Class="Name" Id="Name--1">CPU</H2>
+        <br>
+        <br>
+        <h2 id="p2HP">   </h2>
+        <br/>
+        <br>
+        <h2 id="p2PWR">  </h2>
+        <br><br><br><br><br><br>
+        
+       <i class="" id="p2Wait"></i> 
+        <br><br><br><br>
+        <img src=" " alt="" id="p2Pic">
+        
+        
+        
+        
+        
+        
+        <Button Class="Btn Btn--New" id="NewGame" className="startButt">New Game</Button> 
+        <Button Class="Btn" id="tut" className="tut">How to play</Button> 
+        
+        <br>
+        <br>
+</Section>
 
-          data.forEach(player => {
-            const listItem = document.createElement('li');
-            listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
-            lobbyPlayerList.appendChild(listItem);
-          });
-        })
-        .catch(error => console.error('Error getting lobby players:', error));
-    }
-    function sendInvitation() {
-        getPlayerID()
-          .then(senderId => {
-            // Replace receiverId with the actual receiver's ID
-            const receiverId = 1;  // Replace with the actual receiver's ID
-            
-            fetch(`https://serverr-ztub.onrender.com/players/${senderId}/invite/${receiverId}`, {
-              method: 'POST'
-            })
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-              return response.json();
-            })
-            .then(data => {
-              console.log('Invitation sent successfully:', data.message);
-            })
-            .catch(error => {
-              console.error('Error sending invitation:', error);
-            });
-          })
-          .catch(error => {
-            console.error('Error getting sender ID:', error);
-          });
-      }
-      
-      
-      function checkInvitations() {
-        // Replace receiverId with the actual receiver's ID
-        const receiverId = 1;  // Replace with the actual receiver's ID
-      
-        fetch(`https://serverr-ztub.onrender.com/players/${receiverId}/check_invitations`)
-          .then(response => response.json())
-          .then(data => {
-            const invitations = data.invitations;
-            if (invitations.length > 0) {
-              console.log('You have received new invitations:', invitations);
-              // Handle the received invitations (e.g., display a notification to the user)
-            }
-          })
-          .catch(error => console.error('Error checking invitations:', error));
-      }
-      
-      // Poll every 10 seconds (adjust as needed)
-      setInterval(getPendingInvitations, 10000);
-    
-     function getPendingInvitations() {
-      const receiverId = 1;  // Replace with the actual receiver's ID
-    
-      fetch(`https://serverr-ztub.onrender.com/players/${receiverId}/check_invitations`)
-        .then(response => response.json())
-        .then(data => {
-          const invitations = data.invitations;
-          if (invitations.length > 0) {
-            console.log('Pending invitations:', invitations);
-            // Update the UI to display the pending invitations
-            displayPendingInvitations(invitations);
-          }
-        })
-        .catch(error => console.error('Error getting pending invitations:', error));
-    }
-    
-    function displayPendingInvitations(invitations) {
-      const invitationsList = document.getElementById('pendingInvitationsList');
-      invitationsList.innerHTML = '';
-    
-      invitations.forEach(invitation => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `Invitation ID: ${invitation.id}, Sender ID: ${invitation.sender_id}`;
-        invitationsList.appendChild(listItem);
-      });
-    }
-    
 
-    function selectPlayerForBattle() {
-      // Implement logic to allow player to select another player for battle
-      // This can involve presenting a list of players in the lobby and allowing the player to choose an opponent
-      alert('Player selected for battle!');  // Replace with your actual logic
-    }
-  </script>
 
-  <h2>Lobby Players:</h2>
-  <ul id="lobbyPlayerList"></ul>
-</body>
-</html>
 
+
+
+
+<!--<Button Class="Btn" id="???" className="???">How to play</Button> -->
+
+<br>
+<br>
+<!--<Button Class="Btn" id="Duel"> Duel </Button> -->
+
+
+
+</Main>
+<script src="single.js"
+   ></script>
+  
+</Body>
+</Html>

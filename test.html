@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Player Lobby</title>
+</head>
+<body>
+  <h1>Welcome to the Player Lobby</h1>
+  <button onclick="joinLobby()">Join Lobby</button>
+  <button onclick="getLobbyPlayers()">Get Lobby Players</button>
+  <button onclick="sendInvitation()">Send Invitation</button>
+  <button onclick="selectPlayerForBattle()">Select Player for Battle</button>
+  <ul id="pendingInvitationsList"></ul>
+
+
+  <script>
+    function getPlayerID() {
+        return fetch(`https://serverr-ztub.onrender.com/players`, {
+            method: 'POST',
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Joined lobby:', data["id"]);
+            return data["id"];
+        })
+        .catch(error => {
+            console.error('Error joining lobby:', error);
+            throw error;
+        });
+    }
+    
+    function joinLobby() {
+        getPlayerID()
+        .then(playerId => {
+            if (playerId) {
+                fetch(`https://serverr-ztub.onrender.com/players/${playerId}/join_lobby`, {
+                    method: 'POST',
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Joined lobby:', data);
+                })
+                .catch(error => console.error('Error joining lobby:', error));
+            } else {
+                console.error('Player ID is undefined. Cannot join lobby.');
+            }
+        })
+        .catch(error => {
+            console.error('Error getting player ID:', error);
+        });
+    }
+    
+    
+
+    function getLobbyPlayers() {
+      fetch('https://serverr-ztub.onrender.com/lobby')
+        .then(response => response.json())
+        .then(data => {
+          console.log('Lobby players:', data);
+          // Update UI to display the list of lobby players
+          const lobbyPlayerList = document.getElementById('lobbyPlayerList');
+          lobbyPlayerList.innerHTML = '';
+
+          data.forEach(player => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
+            lobbyPlayerList.appendChild(listItem);
+          });
+        })
+        .catch(error => console.error('Error getting lobby players:', error));
+    }
+    function sendInvitation() {
+        getPlayerID()
+          .then(senderId => {
+            // Replace receiverId with the actual receiver's ID
+            const receiverId = 1;  // Replace with the actual receiver's ID
+            
+            fetch(`https://serverr-ztub.onrender.com/players/${senderId}/invite/${receiverId}`, {
+              method: 'POST'
+            })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.json();
+            })
+            .then(data => {
+              console.log('Invitation sent successfully:', data.message);
+            })
+            .catch(error => {
+              console.error('Error sending invitation:', error);
+            });
+          })
+          .catch(error => {
+            console.error('Error getting sender ID:', error);
+          });
+      }
+      
+      
+      function checkInvitations() {
+        // Replace receiverId with the actual receiver's ID
+        const receiverId = 1;  // Replace with the actual receiver's ID
+      
+        fetch(`https://serverr-ztub.onrender.com/players/${receiverId}/check_invitations`)
+          .then(response => response.json())
+          .then(data => {
+            const invitations = data.invitations;
+            if (invitations.length > 0) {
+              console.log('You have received new invitations:', invitations);
+              // Handle the received invitations (e.g., display a notification to the user)
+            }
+          })
+          .catch(error => console.error('Error checking invitations:', error));
+      }
+      
+      // Poll every 10 seconds (adjust as needed)
+      setInterval(getPendingInvitations, 10000);
+    
+     function getPendingInvitations() {
+      const receiverId = 1;  // Replace with the actual receiver's ID
+    
+      fetch(`https://serverr-ztub.onrender.com/players/${receiverId}/check_invitations`)
+        .then(response => response.json())
+        .then(data => {
+          const invitations = data.invitations;
+          if (invitations.length > 0) {
+            console.log('Pending invitations:', invitations);
+            // Update the UI to display the pending invitations
+            displayPendingInvitations(invitations);
+          }
+        })
+        .catch(error => console.error('Error getting pending invitations:', error));
+    }
+    
+    function displayPendingInvitations(invitations) {
+      const invitationsList = document.getElementById('pendingInvitationsList');
+      invitationsList.innerHTML = '';
+    
+      invitations.forEach(invitation => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `Invitation ID: ${invitation.id}, Sender ID: ${invitation.sender_id}`;
+        invitationsList.appendChild(listItem);
+      });
+    }
+    
+
+    function selectPlayerForBattle() {
+      // Implement logic to allow player to select another player for battle
+      // This can involve presenting a list of players in the lobby and allowing the player to choose an opponent
+      alert('Player selected for battle!');  // Replace with your actual logic
+    }
+  </script>
+
+  <h2>Lobby Players:</h2>
+  <ul id="lobbyPlayerList"></ul>
+</body>
+</html>
+
