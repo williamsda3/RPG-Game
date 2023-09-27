@@ -38,7 +38,7 @@ def login():
 
 
 @app.route('/player', methods=['GET'])
-def login():
+def player():
     
     return render_template('play.html')
 
