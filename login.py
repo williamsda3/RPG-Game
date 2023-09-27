@@ -30,7 +30,7 @@ def login():
         user_id = authenticate_user(request.form['username'], request.form['password'])
         if user_id:
             session['user_id'] = user_id
-            return render_template("indexx.html")  # Redirect to a protected route
+            return render_template("dash.html")  # Redirect to a protected route
         else:
             return 'Invalid credentials. Please try again.'
 
