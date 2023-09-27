@@ -131,7 +131,10 @@
                 if (otherPlayerID) {
                     console.log('Other player ID:', otherPlayerID);
 
-        
+                    fetch(`https://serverr-ztub.onrender.com/players/set_opponent/${currentPlayerID}/${otherPlayerID}`, {
+                        method: 'POST'
+                    })
+
                             let move = prompt('Enter your move:\n');
         
                             if (move == 'a') {
@@ -201,8 +204,10 @@
 
        
            
-      
-        
+            // send to game page
+            window.location.href = 'player.html';
+
+
     </script>
     
   <h2>Lobby Players:</h2>

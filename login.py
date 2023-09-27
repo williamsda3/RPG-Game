@@ -36,6 +36,8 @@ def login():
 
     return render_template('login.html')
 
+
+
 @app.route('/dashboard')
 def dashboard():
     # Check if the user is authenticated (i.e., user ID is in the session)

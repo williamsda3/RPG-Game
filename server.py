@@ -22,6 +22,7 @@ class PlayerStats(db.Model):
     latest_move = db.Column(db.String(length=255))
     lobby_code = db.Column(db.Integer)
     in_lobby = db.Column(db.Boolean, default=False)
+    opponent_id = db.Column(db.Integer)
     invitations_sent = db.relationship('Invitation', backref='sender', lazy=True, foreign_keys='Invitation.sender_id')
     invitations_received = db.relationship('Invitation', backref='receiver', lazy=True, foreign_keys='Invitation.receiver_id')
     
@@ -243,6 +244,19 @@ def view_invites():
     else:
         return 'User not authenticated.'
 
+# Route for setting/getting opponent
+@app.route('players/set_opponent/<int:player_id>/<int:opponent_id>', methods=['GET'])
+def set_opponent(player_id, opponent_id):
+    player = PlayerStats.query.get_or_404(player_id)
+    if player:
+        player.opponent_id = opponent_id
+        db.session.commit()
+
+@app.route('players/get_opponent/<int:player_id>/<int:opponent_id>', methods=['POST'])
+def set_opponent(player_id, opponent_id):
+    player = PlayerStats.query.get_or_404(player_id)
+    if player:
+       return jsonify({'opponent': player.opponent_id})
 # Player Input Routes:
 
 @app.route('/players/<int:player_id>/post_move/<string:player_move>', methods=['POST'])
