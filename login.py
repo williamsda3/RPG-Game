@@ -41,8 +41,7 @@ def login():
 
 @app.route('/player', methods=['GET'])
 def player():
-    response = requests.get("https://site-olk2.onrender.com/players/get_opponent")
-    data = response.json()
+   
     return render_template('play.html')
 
 @app.route('/dashboard')
