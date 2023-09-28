@@ -495,7 +495,8 @@
                                             }
                                         })
                                         .then(data => {
-                                            console.log(data);
+                                            console.log(data['move'])
+                                            console.log(data.json());
                                         });
                                     }
                                     function pollForUpdates() {
@@ -529,7 +530,7 @@
                                     
                                                         //   lobbyPlayerList.appendChild(listItem);
                                                     });
-                                                    console.log(data);
+                                                   // console.log(data);
                                                 })
                                                 .catch(error => console.error('Error polling for updates:', error));
                                             
