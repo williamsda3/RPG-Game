@@ -486,19 +486,26 @@
                                     
                                     
                                     
-                                    function postMove(move){
+                                    function postMove(move) {
                                         fetch(`https://serverr-ztub.onrender.com/players/${currentPlayerID}/post_move/${move}`, {
-                                            method: 'POST',
-                                        }) .then(response => {
+                                            method: 'POST'
+                                        })
+                                        .then(response => {
                                             if (!response.ok) {
                                                 throw new Error('Network response was not ok');
                                             }
+                                            return response.json();  // Parse response as JSON
                                         })
                                         .then(data => {
-                                            console.log(data['move'])
-                                            console.log(data.json());
-                                        });
+                                            if (data && data.move) {
+                                                console.log('Move:', data.move);
+                                            } else {
+                                                console.error('Move data is undefined or missing.');
+                                            }
+                                        })
+                                        .catch(error => console.error('Error posting move:', error));
                                     }
+                                    
                                     function pollForUpdates() {
                                         const lobbyID = getLobbyID();
                                     
