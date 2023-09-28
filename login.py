@@ -39,10 +39,10 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/play.html', methods=['GET'])
+@app.route('/indexx.html', methods=['GET'])
 def player():
    
-    return render_template('play.html')
+    return render_template('indexx.html')
 
 @app.route('/dashboard')
 def dashboard():

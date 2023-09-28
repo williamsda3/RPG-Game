@@ -267,6 +267,8 @@ def post_move(player_id, player_move):
     if player:
      player.latest_move = player_move
      db.session.commit()
+     return jsonify({'posted_move': player.latest_move})
+
      
 @app.route('/players/<int:player_id>/get_move/', methods=['GET'])
 def get_move(player_id):

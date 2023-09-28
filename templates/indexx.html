@@ -463,181 +463,46 @@ let player1
 let player2
 
 
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
 
-// Retrieve the character data from URL parameters
-const player1CharacterData = JSON.parse(urlParams.get('player1Character'));
-const player2CharacterData = JSON.parse(urlParams.get('player2Character'));
-
-console.log(player1CharacterData)
-console.log(player2CharacterData)
 
 
 player1 = new Player();
-plaayer2 = new Player();
+player2 = new Player();
 
 
-
-
-
-
-
-let lobbyID = null; // Variable to store the lobby ID
-
-function getLobbyID() {
-    if (!lobbyID) {
-        lobbyID = prompt("Enter your lobbyID");
-    }
-    return lobbyID;
+function getMove(player){
+    fetch(`https://serverr-ztub.onrender.com/players/${player}/get_move`, {  
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+       console.log(response.json());
+    })
 }
-getLobbyID()
-function getPlayerID() {
-    return fetch(`https://serverr-ztub.onrender.com/players`, {
-        method: 'POST',
+
+function getLobbyID(){
+    fetch(`https://serverr-ztub.onrender.com/players`, {
     })
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.json();
     })
     .then(data => {
-        console.log('Joined lobby:', data["id"]);
-        // After getting the player ID when joining the lobby
-        sessionStorage.setItem('playerID', data["id"]);
-
-        return data["id"];
+       return data['lobby_code']);
     })
-    .catch(error => {
-        console.error('Error joining lobby:', error);
-        throw error;
-    });
 }
-getPlayerID()
-function joinLobby() {
-    const lobbyID = getLobbyID(); 
-    getPlayerID()
-    .then(playerId => {
-        if (playerId) {
-            fetch(`https://serverr-ztub.onrender.com/players/${playerId}/join_lobby/${lobbyID}`, {
-                method: 'POST',
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Joined lobby:', data);
-            })
-            .catch(error => console.error('Error joining lobby:', error));
-        } else {
-            console.error('Player ID is undefined. Cannot join lobby.');
+
+function postMove(move){
+    fetch(`https://serverr-ztub.onrender.com/players/${currentPlayerID}/post_move/${move}`, {
+        method: 'POST',
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+        console.log(response.json());
     })
-    .catch(error => {
-        console.error('Error getting player ID:', error);
-    });
 }
-joinLobby();
-function getLobbyPlayers() {
-    const lobbyID = getLobbyID();
-
-    fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log('Lobby players:', data);
-            // Update UI to display the list of lobby players
-           // const lobbyPlayerList = document.getElementById('lobbyPlayerList');
-           // lobbyPlayerList.innerHTML = '';
-
-            // Check the number of players in the lobby
-            const numPlayers = data.length;
-
-            // Assuming the playerID of the current player is stored in sessionStorage
-            const currentPlayerID = sessionStorage.getItem('playerID');
-
-            data.forEach(player => {
-               // const listItem = document.createElement('li');
-               // listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
-
-                // Highlight the current player
-                if (player.id === parseInt(currentPlayerID)) {
-                 //   listItem.style.fontWeight = 'bold';
-                 player1.HP = player.hp
-                 player1.ATK = player.atk
-                }
-                
-
-               // lobbyPlayerList.appendChild(listItem);
-            });
-
-            // Toggle the visibility of the "Start Match" button
-           // const startMatchButton = document.getElementById('startMatchButton');
-           // startMatchButton.style.display = numPlayers === 2 ? 'block' : 'none';
-        })
-        .catch(error => console.error('Error getting lobby players:', error));
-}
-getLobbyPlayers()
-function startMatch() {
-    const lobbyID = getLobbyID();
-
-    // Assuming the playerID of the current player is stored in sessionStorage
-    const currentPlayerID = sessionStorage.getItem('playerID');
-
-    fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length === 2) {
-                // Find the other player's playerID
-                let otherPlayerID;
-
-            for (const element of data) {
-                if (element.id !== parseInt(currentPlayerID)) {
-                    otherPlayerID = element.id;
-                    player2.HP = element.hp;
-                    player2.ATK = element.atk;
-                    break;
-                }
-            }
-
-        if (otherPlayerID) {
-            console.log('Other player ID:', otherPlayerID);
-
-
-                    let move = prompt('Enter your move:\n');
-
-                    if (move == 'a') {
-                        fetch(`https://serverr-ztub.onrender.com/players/${otherPlayerID}/reduce/${1}`, {
-                            method: 'POST'
-                        }).then(response =>getLobbyPlayers())
-                        
-                    }
-                    else if (move == 'c') {
-
-                        fetch(`https://serverr-ztub.onrender.com/players/${currentPlayerID}/charge`, {
-                            method: 'POST'
-                        }).then(response =>getLobbyPlayers())
-                    }
-                    // Add more conditions for other moves if needed
-
-                    // Use the otherPlayerID for further actions in your match
-                    // Add your logic to start the match here
-                } else {
-                    console.error('Could not find the other player in the lobby.');
-                }
-            } else {
-                console.error('Unexpected number of players in the lobby.');
-            }
-        })
-        .catch(error => console.error('Error getting lobby players:', error));
-
-  
-
-}
-startMatch();
 function pollForUpdates() {
     const lobbyID = getLobbyID();
 

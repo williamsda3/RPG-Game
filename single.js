@@ -247,6 +247,7 @@ startGame.addEventListener("click", function(){
       playerMove = "attack";
       p1Pic.src = "pics/attack.jpg";
       chosen = true;
+      'https://serverr-ztub.onrender.com/players/players/<int:player_id>/post_move/<string:player_move>'
     }
     if (event.code === 'KeyA') {
       playerMove = "defend";
