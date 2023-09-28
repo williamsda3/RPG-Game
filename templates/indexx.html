@@ -6,602 +6,608 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href=" static\css\style.css"> 
     <script src="https://kit.fontawesome.com/f2315f2eaa.js" crossorigin="anonymous"></script>
-
-   
     
-<Title>MMMMMMMMMM</Title>
+    
+    
+    <Title>MMMMMMMMMM</Title>
 </Head>
 <Body>
-
-   
-<Main id="game">
     
-
-<Section Class="Player Player--0 Player--Active">
-<H2 Class="Name" Id="Name--0">Player 1</H2>
-<br>
-<br>
-
-<h2 id="p1HP">  </h2>
-<br />
-<br>
-<h2 id="p1PWR">  </h2>
-<br />
-<br />
-<h2 id="p1BLK">  </h2>
-<textarea id="timer" cols="45" rows="4"></textarea>
-<br />
-
-<i class="fa-solid fa-spinner fa-spin-pulse fa-3x" id="p1Wait"></i>
-<br><br>
-<img src= " " alt="" id="p1Pic">
-
-
-<!--<textarea id="p1choice" cols="30" rows="10"></textarea>
-<div  id="cards">
-   <!-  <button class="card" id="ATK"> ATK </button>
-    <button class="card" id="BLK"> BLK </button>
-    <button class="card" id="CRG"> CRG </button>-->
-
-</Section>
-
- <a href="index.html">Single Player</a>
-<Section Class="Player Player--1">
-<H2 Class="Name" Id="Name--1">Player 2</H2>
-<br>
-<br>
-<h2 id="p2HP">   </h2>
-<br />
-<br>
-<h2 id="p2PWR">  </h2>
-<br />
-<br />
-<h2 id="p2BLK">  </h2>
-<br><br><br><br><br><br>
-
-<i class="fa-solid fa-spinner fa-spin-pulse fa-3x" id="p2Wait"></i>
-<br><br>
-<img src=" " alt="" id="p2Pic">
-
-
-
-
-
-
-<Button Class="Btn Btn--New" id="NewGame" className="startButt">New Game</Button> 
-<Button Class="Btn" id="tut" className="tut">How to play</Button> 
-
-<br>
-<br>
-<!--<Button Class="Btn" id="Duel"> Duel </Button> -->
-
-
-
-</Main>
-<script>
-
     
-// Assigning variables to HTML elements // 
-let inputField = document.getElementById("timer");
-let playerMove = document.querySelector("p");
-let p1Choice =document.getElementById("p1choice");
-let buttATK = document.getElementById("ATK");
-let game = document.getElementById("game");
-let duel = document.getElementById("Duel");
-let p1PWR =  document.getElementById("p1PWR");
-let help = document.getElementById("tut");
-let p1Wait =  document.getElementById("p1Wait");
-let p2Wait =  document.getElementById("p2Wait");
-let p1Pic =  document.getElementById("p1Pic");
-let p2Pic =  document.getElementById("p2Pic");
-let characterButtons = document.querySelectorAll('.character button');
-
-
-// creating variables for New game button //
-let startGame = document.getElementById("NewGame");
-
-let winner = false;
-
-// Hiding the cards //
-p1Wait.style.visibility = "hidden";
-p2Wait.style.visibility = "hidden";
-//p1Pic.style.visibility = "hidden";
-//p2Pic.style.visibility = "hidden";
-
-// Creating an Array of sentences to hold the Tutorial messages //
-let tut = ["Each Player starts with 5 Health (HP)","And 1 base Attack Power (PWR)", "Press'W' or 'Up-Arrow' to Attack your opponent", "Press 'A or 'Right-Arrow' to Defend", "Press 'D' or 'Right-Arrow to Charge", "Doing so will increase your Attack PWR by 1"];let i = 0;
-let loser = ["fa-solid fa-face-sad-sweat", "fa-solid fa-face-pleading","fa-solid fa-face-head-bandage"]; 
-
-// Using 'setTimeout' function to have the Tutorial messages and effects change automatically //
-help.addEventListener("click", tutorial);
-function tutorial() {
-    i = 0;
-    inputField.innerText = tut[i];
-    document.getElementById("p1HP").innerHTML = " " ;
-    document.getElementById("p2HP").innerHTML = " ";
-    document.getElementById("p1PWR").innerHTML = " ";
-    document.getElementById("p2PWR").innerHTML = " ";
-    p1Wait.style.visibility = "hidden"; 
-    p2Wait.style.visibility = "hidden"; 
-    
-    if(i == 0){
-        document.getElementById("p1HP").innerHTML =` HP: ${player1.baseHP}`;
-        document.getElementById("p2HP").innerHTML =`HP: ${player2.baseHP}`;
-        setTimeout(function(){
-            document.getElementById("p1HP").style.color = "#90ee90";
-            document.getElementById("p2HP").style.color = "#90ee90";
-            i++;
-        }, 500);
+    <Main id="game">
         
-        setTimeout(function(){ 
-            inputField.innerText = tut[i];
-            p1PWR.innerText = `PWR: ${player1.ATK}`;
-            document.getElementById("p2PWR").innerHTML =` PWR: ${player2.ATK}`;
-            document.getElementById("p1HP").style.color = "black";
-            document.getElementById("p2HP").style.color = "black"; document.getElementById("p1PWR").style.color = "#D10000";
-            document.getElementById("p2PWR").style.color = "#D10000"; 
-            i++
-        }, 3500);
         
-        setTimeout(function(){
-            inputField.innerText = tut[i];
-            i++
-        }, 6500);
-        
-        setTimeout(function(){
+        <Section Class="Player Player--0 Player--Active">
+            <H2 Class="Name" Id="Name--0">Player 1</H2>
+            <br>
+            <br>
             
-            inputField.innerText = tut[i];
-            i++; 
-        }, 9500);
-        
-        setTimeout(function(){
+            <h2 id="p1HP">  </h2>
+            <br />
+            <br>
+            <h2 id="p1PWR">  </h2>
+            <br />
+            <br />
+            <h2 id="p1BLK">  </h2>
+            <textarea id="timer" cols="45" rows="4"></textarea>
+            <br />
             
-            inputField.innerText = tut[i-1];
-            i++
-        }, 11500); 
-        
-        setTimeout(function(){
+            <i class="fa-solid fa-spinner fa-spin-pulse fa-3x" id="p1Wait"></i>
+            <br><br>
+            <img src= " " alt="" id="p1Pic">
             
-            inputField.innerText = tut[i-1];
-            i++
-        }, 16500); 
-        
-        setTimeout(function(){
-            inputField.innerText = tut[i-1];
-            i++
-        }, 20000); 
-    }
-    window.reload()
-}       
-
-
-
-//Creating variables for the player's move choices //
-let player1_Move;
-let player2_Move;
-let player1_choice = false; 
-let player2_choice = false;
-
-
-// // Player 1 attributes
-// const player1 = {
-//     baseHP : 5,
-//     ATK : 1,
-//     CRG : 0,
-//     hasCharge : false,
-//     timesATK : 0,
-//     removeCharge(){
-//         if(player1.hasCharge){
-//             player1.ATK = 1;
-//             player1.hasCharge = false;
-//         }
-//     },
-//     blockCount : 0
-
-// }
-//perks 
-// special attacks that deal 'elemental' damage (elemental based rps)
-// Define the Player class
-class Player {
-    constructor() {
-        this.name = "Player";
-        this.baseHP = 5;
-        this.HP = 5
-        this.baseATK = 1
-        this.ATK = 1;
-        this.CRG = 0;
-        this.hasCharge = false;
-        this.timesATK = 0;
-        this.blockCount = 0;
-        this.blocking = false;
-        this.shield = 0;
-        this.attacked = false
-    }
-    
-    removeCharge() {
-        this.ATK = this.baseATK;
-        if(this.shield <= 0){
-            this.blocking = false
-            this.shield = 0;
-        }
-    }
-    takeDamage(damage, currentHP){
-        
-        this.HP -= damage;
-    }
-    
-    block() {
-        this.shield ++;
-        if(this.shield > 1){
-            this.shield = 1;
-        }
-        if(this.shield <= 0){
-            this.blocking = false
-            this.shield = 0;
-        }
-        
-    }
-    special(){
-        if(this.shield <= 0){
-            this.blocking = false
-            this.shield = 0;
-        }
-        
-        this.ATK ++;
-        this.blocking = false
-    }
-}
-
-// Define the Tank class     -- !!Find a way to balance the shield!! --
-class Tank {
-    constructor() {
-        this.name = "Tank";
-        this.baseHP = 6;
-        this.HP = 6;
-        this.baseATK = 1;
-        this.ATK = 1;
-        this.CRG = 0;
-        this.hasCharge = false;
-        this.timesATK = 0;
-        this.blockCount = 0;
-        this.blocking = false;
-        this.shield = 0;
-        this.attacked = false;
-        this.hardenBuff = 0;
-        
-    }
-    
-    removeCharge(){
-        if(this.shield <= 0){
-            this.blocking = false
-            this.shield = 0;
-        }
-    }
-    
-    takeDamage(damage, currentHP){
-        
-        let remaining = this.shield - damage;
-        this.HP += remaining;
-        this.shield = this.HP - currentHP;
-        if(this.shield <= 0){
-            this.shield = 0;
-        }
-        this.HP -= this.shield;
-    }
-    
-    block(){
-        console.log(this.ATK);
-        this.shield ++;
-        if(this.shield > 2){
-            this.shield = 0
-            this.ATK ++;
-        }
-    }
-    
-    // maybe nerf: decrease max HP or increase cooldown for buff
-    special() {  
-        if(this.shield <= 0){
-            this.blocking = false
-            this.shield = 0;
-        }
-        this.hardenBuff ++;
-        if(this.hardenBuff >= 2){
-            this.HP ++;
-            if(this.HP >= 10){
-                this.HP = 10;
-            }
-            this.hardenBuff = 0;
-        }
-    }
-}
-
-class Flame {
-    constructor() {
-        this.name = "Flame";
-        this.baseHP = 4;
-        this.HP = 4
-        this.baseATK = 2
-        this.ATK = 2;
-        this.CRG = 0;
-        this.hasCharge = false;
-        this.timesATK = 0;
-        this.blockCount = 0;
-        this.blocking = false;
-        this.shield = 0;
-        this.flameWall = false;
-        this.burn = this.ATK * .50;
-        
-    }
-    
-    removeCharge() {
-        this.ATK = this.baseATK;
-        if(this.shield <= 0){
-            this.blocking = false
-            this.shield = 0;
-        }
-    }
-    takeDamage(damage, currentHP){
-        
-        if(this.flameWall){
-            this.HP -= damage * .50;
-            this.flameWall = false;
-        }
-        else{
-            this.HP -= damage;
-        }
-    }
-    //     let remaining = this.shield - damage;
-    //     this.HP += remaining;
-    //     this.shield = this.HP - currentHP;
-    //     if(this.shield <= 0){
-    //         this.shield = 0;
-    //     }
-    //     this.HP -= this.shield;
-    // }
-    block() {
-        this.flameWall = true;
-        
-        
-    }
-    special(){
-        if(this.shield <= 0){
-            this.blocking = false
-            this.shield = 0;
-        }
-        this.ATK ++;
-        this.blocking = false
-    }
-}
-
-class Shadow {
-    constructor() {
-        this.name = "Shadow";
-        this.baseHP = 5;
-        this.HP = 5
-        this.baseATK = 1
-        this.ATK = 1;
-        this.CRG = 0;
-        this.hasCharge = false;
-        this.timesATK = 0;
-        this.blockCount = 0;
-        this.blocking = false;
-        this.shield = 0;
-        this.attacked = false
-        this.voidMark = 0;
-        this.voidGrasp = 0;
-        this.illusionSuccessful = false;
-        
-    }
-    
-    removeCharge() {
-        this.ATK = this.baseATK;
-        if(this.shield <= 0){
-            this.blocking = false
-            this.shield = 0;
-        }
-    }
-    takeDamage(damage, currentHP){
-        
-        this.HP -= damage;
-    }
-    block() {
-        console.log("Blocked!");
-    }
-    
-    placeIllusion(status) {
-        this.illusionSuccessful = status;
-        if(this.illusionSuccessful){
-            this.voidMark ++;
-            if(this.voidMark == 2){
-                this.ATK ++;
-            }
-            if(this.voidMark > 2 && this.voidMark < 5){
-                this.HP ++;
-            }
             
-        }
-        else{
-            this.ATK --;
-            this.HP --;
-            this.voidMark = 0;
-            if(this.HP <= 0){
-                this.HP = 0;
-            }
-            if(this.ATK <= 0){
-                this.ATK = 0;
-            }
-        }
-        
-        
-    }
-    markEnemy(){
-        this.voidMark ++;
-        if(this.voidMark == 2){
-            this.ATK ++;
-        }
-        if(this.voidMark > 2 && this.voidMark < 5){
-            this.HP ++;
-        }
-    }
-    special(enemy){
-        if(this.shield <= 0){
-            this.blocking = false
-            this.shield = 0;
-        }
-        // ADD if there are 5 stacks of Void Marks removed
-        this.HP += this.voidMark / 2;
-        this.ATK += this.voidMark / 2;
-        this.voidMark = 0
-        
-        
-        this.blocking = false
-    }
-}
-// Assuming you have already defined the Player, Tank, Flame, and Shadow classes
-
-let player1
-let player2
-const currentPlayerID = sessionStorage.getItem('playerID');
-const opponentID = sessionStorage.getItem('opponentID');
-
-
-
-
-player1 = new Player();
-player2 = new Player();
-
-
-function getMove(player){
-    fetch(`https://serverr-ztub.onrender.com/players/${player}/get_move`, {  
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-       console.log(response.json());
-    })
-}
-function getLobbyID() {
-    fetch('https://serverr-ztub.onrender.com/players', {})
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-        })
-        .then(data => {
-            return data['lobby_code'];
-        });
-}
-
-
-
-function postMove(move){
-    fetch(`https://serverr-ztub.onrender.com/players/${currentPlayerID}/post_move/${move}`, {
-        method: 'POST',
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        console.log(response.json());
-    })
-}
-function pollForUpdates() {
-    const lobbyID = getLobbyID();
-
-    // Set an interval to poll the server every 5 seconds (adjust as needed)
-    setInterval(() => {
-        fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
-            .then(response => response.json())
-            .then(data => {
-                // Assuming the playerID of the current player is stored in sessionStorage
-                const currentPlayerID = sessionStorage.getItem('playerID');
-
-                // Update UI to display the list of lobby players
-
-                document.getElementById("p1HP").innerHTML = ` HP: ${player1.HP}` ;
-                document.getElementById("p2HP").innerHTML =` HP: ${player2.HP}`;
-                document.getElementById("p1PWR").innerHTML = ` ATK: ${player1.ATK}`;
-                document.getElementById("p2PWR").innerHTML = ` ATK: ${player2.ATK}`;
-
-
-               // const lobbyPlayerList = document.getElementById('lobbyPlayerList');
-                //lobbyPlayerList.innerHTML = '';  // Clear the existing content
-
-                data.forEach(player => {
-                   // const listItem = document.createElement('li');
-                   //listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
-
-                    // Highlight the current player
-                   // if (player.id === parseInt(currentPlayerID)) {
-                   //     listItem.style.fontWeight = 'bold';
-                   // }
-
-                 //   lobbyPlayerList.appendChild(listItem);
-                });
-                console.log(data);
-            })
-            .catch(error => console.error('Error polling for updates:', error));
-    }, 2000);  // Poll every 2 seconds (adjust as needed)
-}
-
-
-window.addEventListener('keyup', (e) => {   
-        
-       
-    if (e.defaultPrevented) {
-        return; // Do nothing if event already handled
-    }  
-    
-    
-    
-    switch(e.code){
-        
-        
-        
-        
-        // Once the game starts it will listen and assign what key is pressed to the player_move variable. Later on the two choices will be compared (duel)
-        case "KeyW":
-        player1_Move = "a";
-        player1_choice = true;
-        p1Pic.src = "static/images/attack.jpg";
-        p1Wait.style.visibility = "hidden"; 
-        p1Pic.style.visibility = "hidden";
-        postMove('a')
-        console.log(`player ${currentPlayerID} attacked!`);
-        
-        break;
-        case "KeyA":
-        player1_Move = "b";
-        player1_choice = true;
-        p1Pic.src = "pics/block.jpg";
-        p1Wait.style.visibility = "hidden"; 
-        p1Pic.style.visibility = "hidden";
-        break;
-        case "KeyD":
-        player1_Move = "c";
-        player1_choice = true;
-        p1Pic.src = "pics/charge.jpg";
-        p1Wait.style.visibility = "hidden"; 
-        p1Pic.style.visibility = "hidden";
-        break;
-        
-
-       
-    }
-    
-    
-})
-
-opponentMove = getMove(otherPlayerID)
-if(opponentMove == 'a'){
-    console.log(`player ${opponentID} attacked`)
-}
-// Call the function to start polling for updates
-pollForUpdates();
-
-</script>
-
-
-
- 
-</Body>
-</Html>
+            <!--<textarea id="p1choice" cols="30" rows="10"></textarea>
+                <div  id="cards">
+                    <!-  <button class="card" id="ATK"> ATK </button>
+                    <button class="card" id="BLK"> BLK </button>
+                    <button class="card" id="CRG"> CRG </button>-->
+                    
+                </Section>
+                
+                <a href="index.html">Single Player</a>
+                <Section Class="Player Player--1">
+                    <H2 Class="Name" Id="Name--1">Player 2</H2>
+                    <br>
+                    <br>
+                    <h2 id="p2HP">   </h2>
+                    <br />
+                    <br>
+                    <h2 id="p2PWR">  </h2>
+                    <br />
+                    <br />
+                    <h2 id="p2BLK">  </h2>
+                    <br><br><br><br><br><br>
+                    
+                    <i class="fa-solid fa-spinner fa-spin-pulse fa-3x" id="p2Wait"></i>
+                    <br><br>
+                    <img src=" " alt="" id="p2Pic">
+                    
+                    
+                    
+                    
+                    
+                    
+                    <Button Class="Btn Btn--New" id="NewGame" className="startButt">New Game</Button> 
+                    <Button Class="Btn" id="tut" className="tut">How to play</Button> 
+                    
+                    <br>
+                    <br>
+                    <!--<Button Class="Btn" id="Duel"> Duel </Button> -->
+                    
+                    
+                    
+                </Main>
+                <script>
+                    
+                    
+                    // Assigning variables to HTML elements // 
+                    let inputField = document.getElementById("timer");
+                    let playerMove = document.querySelector("p");
+                    let p1Choice =document.getElementById("p1choice");
+                    let buttATK = document.getElementById("ATK");
+                    let game = document.getElementById("game");
+                    let duel = document.getElementById("Duel");
+                    let p1PWR =  document.getElementById("p1PWR");
+                    let help = document.getElementById("tut");
+                    let p1Wait =  document.getElementById("p1Wait");
+                    let p2Wait =  document.getElementById("p2Wait");
+                    let p1Pic =  document.getElementById("p1Pic");
+                    let p2Pic =  document.getElementById("p2Pic");
+                    let characterButtons = document.querySelectorAll('.character button');
+                    
+                    
+                    // creating variables for New game button //
+                    let startGame = document.getElementById("NewGame");
+                    
+                    let winner = false;
+                    
+                    // Hiding the cards //
+                    p1Wait.style.visibility = "hidden";
+                    p2Wait.style.visibility = "hidden";
+                    //p1Pic.style.visibility = "hidden";
+                    //p2Pic.style.visibility = "hidden";
+                    
+                    // Creating an Array of sentences to hold the Tutorial messages //
+                    let tut = ["Each Player starts with 5 Health (HP)","And 1 base Attack Power (PWR)", "Press'W' or 'Up-Arrow' to Attack your opponent", "Press 'A or 'Right-Arrow' to Defend", "Press 'D' or 'Right-Arrow to Charge", "Doing so will increase your Attack PWR by 1"];let i = 0;
+                    let loser = ["fa-solid fa-face-sad-sweat", "fa-solid fa-face-pleading","fa-solid fa-face-head-bandage"]; 
+                    
+                    // Using 'setTimeout' function to have the Tutorial messages and effects change automatically //
+                    help.addEventListener("click", tutorial);
+                    function tutorial() {
+                        i = 0;
+                        inputField.innerText = tut[i];
+                        document.getElementById("p1HP").innerHTML = " " ;
+                        document.getElementById("p2HP").innerHTML = " ";
+                        document.getElementById("p1PWR").innerHTML = " ";
+                        document.getElementById("p2PWR").innerHTML = " ";
+                        p1Wait.style.visibility = "hidden"; 
+                        p2Wait.style.visibility = "hidden"; 
+                        
+                        if(i == 0){
+                            document.getElementById("p1HP").innerHTML =` HP: ${player1.baseHP}`;
+                            document.getElementById("p2HP").innerHTML =`HP: ${player2.baseHP}`;
+                            setTimeout(function(){
+                                document.getElementById("p1HP").style.color = "#90ee90";
+                                document.getElementById("p2HP").style.color = "#90ee90";
+                                i++;
+                            }, 500);
+                            
+                            setTimeout(function(){ 
+                                inputField.innerText = tut[i];
+                                p1PWR.innerText = `PWR: ${player1.ATK}`;
+                                document.getElementById("p2PWR").innerHTML =` PWR: ${player2.ATK}`;
+                                document.getElementById("p1HP").style.color = "black";
+                                document.getElementById("p2HP").style.color = "black"; document.getElementById("p1PWR").style.color = "#D10000";
+                                document.getElementById("p2PWR").style.color = "#D10000"; 
+                                i++
+                            }, 3500);
+                            
+                            setTimeout(function(){
+                                inputField.innerText = tut[i];
+                                i++
+                            }, 6500);
+                            
+                            setTimeout(function(){
+                                
+                                inputField.innerText = tut[i];
+                                i++; 
+                            }, 9500);
+                            
+                            setTimeout(function(){
+                                
+                                inputField.innerText = tut[i-1];
+                                i++
+                            }, 11500); 
+                            
+                            setTimeout(function(){
+                                
+                                inputField.innerText = tut[i-1];
+                                i++
+                            }, 16500); 
+                            
+                            setTimeout(function(){
+                                inputField.innerText = tut[i-1];
+                                i++
+                            }, 20000); 
+                        }
+                        window.reload()
+                    }       
+                    
+                    
+                    
+                    //Creating variables for the player's move choices //
+                    let player1_Move;
+                    let player2_Move;
+                    let player1_choice = false; 
+                    let player2_choice = false;
+                    
+                    
+                    // // Player 1 attributes
+                    // const player1 = {
+                        //     baseHP : 5,
+                        //     ATK : 1,
+                        //     CRG : 0,
+                        //     hasCharge : false,
+                        //     timesATK : 0,
+                        //     removeCharge(){
+                            //         if(player1.hasCharge){
+                                //             player1.ATK = 1;
+                                //             player1.hasCharge = false;
+                                //         }
+                                //     },
+                                //     blockCount : 0
+                                
+                                // }
+                                //perks 
+                                // special attacks that deal 'elemental' damage (elemental based rps)
+                                // Define the Player class
+                                class Player {
+                                    constructor() {
+                                        this.name = "Player";
+                                        this.baseHP = 5;
+                                        this.HP = 5
+                                        this.baseATK = 1
+                                        this.ATK = 1;
+                                        this.CRG = 0;
+                                        this.hasCharge = false;
+                                        this.timesATK = 0;
+                                        this.blockCount = 0;
+                                        this.blocking = false;
+                                        this.shield = 0;
+                                        this.attacked = false
+                                    }
+                                    
+                                    removeCharge() {
+                                        this.ATK = this.baseATK;
+                                        if(this.shield <= 0){
+                                            this.blocking = false
+                                            this.shield = 0;
+                                        }
+                                    }
+                                    takeDamage(damage, currentHP){
+                                        
+                                        this.HP -= damage;
+                                    }
+                                    
+                                    block() {
+                                        this.shield ++;
+                                        if(this.shield > 1){
+                                            this.shield = 1;
+                                        }
+                                        if(this.shield <= 0){
+                                            this.blocking = false
+                                            this.shield = 0;
+                                        }
+                                        
+                                    }
+                                    special(){
+                                        if(this.shield <= 0){
+                                            this.blocking = false
+                                            this.shield = 0;
+                                        }
+                                        
+                                        this.ATK ++;
+                                        this.blocking = false
+                                    }
+                                }
+                                
+                                // Define the Tank class     -- !!Find a way to balance the shield!! --
+                                class Tank {
+                                    constructor() {
+                                        this.name = "Tank";
+                                        this.baseHP = 6;
+                                        this.HP = 6;
+                                        this.baseATK = 1;
+                                        this.ATK = 1;
+                                        this.CRG = 0;
+                                        this.hasCharge = false;
+                                        this.timesATK = 0;
+                                        this.blockCount = 0;
+                                        this.blocking = false;
+                                        this.shield = 0;
+                                        this.attacked = false;
+                                        this.hardenBuff = 0;
+                                        
+                                    }
+                                    
+                                    removeCharge(){
+                                        if(this.shield <= 0){
+                                            this.blocking = false
+                                            this.shield = 0;
+                                        }
+                                    }
+                                    
+                                    takeDamage(damage, currentHP){
+                                        
+                                        let remaining = this.shield - damage;
+                                        this.HP += remaining;
+                                        this.shield = this.HP - currentHP;
+                                        if(this.shield <= 0){
+                                            this.shield = 0;
+                                        }
+                                        this.HP -= this.shield;
+                                    }
+                                    
+                                    block(){
+                                        console.log(this.ATK);
+                                        this.shield ++;
+                                        if(this.shield > 2){
+                                            this.shield = 0
+                                            this.ATK ++;
+                                        }
+                                    }
+                                    
+                                    // maybe nerf: decrease max HP or increase cooldown for buff
+                                    special() {  
+                                        if(this.shield <= 0){
+                                            this.blocking = false
+                                            this.shield = 0;
+                                        }
+                                        this.hardenBuff ++;
+                                        if(this.hardenBuff >= 2){
+                                            this.HP ++;
+                                            if(this.HP >= 10){
+                                                this.HP = 10;
+                                            }
+                                            this.hardenBuff = 0;
+                                        }
+                                    }
+                                }
+                                
+                                class Flame {
+                                    constructor() {
+                                        this.name = "Flame";
+                                        this.baseHP = 4;
+                                        this.HP = 4
+                                        this.baseATK = 2
+                                        this.ATK = 2;
+                                        this.CRG = 0;
+                                        this.hasCharge = false;
+                                        this.timesATK = 0;
+                                        this.blockCount = 0;
+                                        this.blocking = false;
+                                        this.shield = 0;
+                                        this.flameWall = false;
+                                        this.burn = this.ATK * .50;
+                                        
+                                    }
+                                    
+                                    removeCharge() {
+                                        this.ATK = this.baseATK;
+                                        if(this.shield <= 0){
+                                            this.blocking = false
+                                            this.shield = 0;
+                                        }
+                                    }
+                                    takeDamage(damage, currentHP){
+                                        
+                                        if(this.flameWall){
+                                            this.HP -= damage * .50;
+                                            this.flameWall = false;
+                                        }
+                                        else{
+                                            this.HP -= damage;
+                                        }
+                                    }
+                                    //     let remaining = this.shield - damage;
+                                    //     this.HP += remaining;
+                                    //     this.shield = this.HP - currentHP;
+                                    //     if(this.shield <= 0){
+                                        //         this.shield = 0;
+                                        //     }
+                                        //     this.HP -= this.shield;
+                                        // }
+                                        block() {
+                                            this.flameWall = true;
+                                            
+                                            
+                                        }
+                                        special(){
+                                            if(this.shield <= 0){
+                                                this.blocking = false
+                                                this.shield = 0;
+                                            }
+                                            this.ATK ++;
+                                            this.blocking = false
+                                        }
+                                    }
+                                    
+                                    class Shadow {
+                                        constructor() {
+                                            this.name = "Shadow";
+                                            this.baseHP = 5;
+                                            this.HP = 5
+                                            this.baseATK = 1
+                                            this.ATK = 1;
+                                            this.CRG = 0;
+                                            this.hasCharge = false;
+                                            this.timesATK = 0;
+                                            this.blockCount = 0;
+                                            this.blocking = false;
+                                            this.shield = 0;
+                                            this.attacked = false
+                                            this.voidMark = 0;
+                                            this.voidGrasp = 0;
+                                            this.illusionSuccessful = false;
+                                            
+                                        }
+                                        
+                                        removeCharge() {
+                                            this.ATK = this.baseATK;
+                                            if(this.shield <= 0){
+                                                this.blocking = false
+                                                this.shield = 0;
+                                            }
+                                        }
+                                        takeDamage(damage, currentHP){
+                                            
+                                            this.HP -= damage;
+                                        }
+                                        block() {
+                                            console.log("Blocked!");
+                                        }
+                                        
+                                        placeIllusion(status) {
+                                            this.illusionSuccessful = status;
+                                            if(this.illusionSuccessful){
+                                                this.voidMark ++;
+                                                if(this.voidMark == 2){
+                                                    this.ATK ++;
+                                                }
+                                                if(this.voidMark > 2 && this.voidMark < 5){
+                                                    this.HP ++;
+                                                }
+                                                
+                                            }
+                                            else{
+                                                this.ATK --;
+                                                this.HP --;
+                                                this.voidMark = 0;
+                                                if(this.HP <= 0){
+                                                    this.HP = 0;
+                                                }
+                                                if(this.ATK <= 0){
+                                                    this.ATK = 0;
+                                                }
+                                            }
+                                            
+                                            
+                                        }
+                                        markEnemy(){
+                                            this.voidMark ++;
+                                            if(this.voidMark == 2){
+                                                this.ATK ++;
+                                            }
+                                            if(this.voidMark > 2 && this.voidMark < 5){
+                                                this.HP ++;
+                                            }
+                                        }
+                                        special(enemy){
+                                            if(this.shield <= 0){
+                                                this.blocking = false
+                                                this.shield = 0;
+                                            }
+                                            // ADD if there are 5 stacks of Void Marks removed
+                                            this.HP += this.voidMark / 2;
+                                            this.ATK += this.voidMark / 2;
+                                            this.voidMark = 0
+                                            
+                                            
+                                            this.blocking = false
+                                        }
+                                    }
+                                    // Assuming you have already defined the Player, Tank, Flame, and Shadow classes
+                                    
+                                    let player1
+                                    let player2
+                                    const currentPlayerID = sessionStorage.getItem('playerID');
+                                    const opponentID = sessionStorage.getItem('opponentID');
+                                    
+                                    
+                                    
+                                    
+                                    player1 = new Player();
+                                    player2 = new Player();
+                                    
+                                    
+                                    function getMove(player){
+                                        fetch(`https://serverr-ztub.onrender.com/players/${player}/get_move`, {  
+                                        }).then(response => {
+                                            if (!response.ok) {
+                                                throw new Error('Network response was not ok');
+                                            }
+                                            console.log(response.json());
+                                        })
+                                    }
+                                    function getLobbyID() {
+                                        fetch('https://serverr-ztub.onrender.com/players', {})
+                                        .then(response => {
+                                            if (!response.ok) {
+                                                throw new Error('Network response was not ok');
+                                            }
+                                        })
+                                        .then(data => {
+                                            return data['lobby_code'];
+                                        });
+                                    }
+                                    
+                                    
+                                    
+                                    function postMove(move){
+                                        fetch(`https://serverr-ztub.onrender.com/players/${currentPlayerID}/post_move/${move}`, {
+                                            method: 'POST',
+                                        }) .then(response => {
+                                            if (!response.ok) {
+                                                throw new Error('Network response was not ok');
+                                            }
+                                        })
+                                        .then(data => {
+                                            console.log(data);
+                                        });
+                                    }
+                                    function pollForUpdates() {
+                                        const lobbyID = getLobbyID();
+                                        
+                                        // Set an interval to poll the server every 5 seconds (adjust as needed)
+                                        setInterval(() => {
+                                            fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                // Assuming the playerID of the current player is stored in sessionStorage
+                                                const currentPlayerID = sessionStorage.getItem('playerID');
+                                                
+                                                // Update UI to display the list of lobby players
+                                                
+                                                document.getElementById("p1HP").innerHTML = ` HP: ${player1.HP}` ;
+                                                document.getElementById("p2HP").innerHTML =` HP: ${player2.HP}`;
+                                                document.getElementById("p1PWR").innerHTML = ` ATK: ${player1.ATK}`;
+                                                document.getElementById("p2PWR").innerHTML = ` ATK: ${player2.ATK}`;
+                                                
+                                                
+                                                // const lobbyPlayerList = document.getElementById('lobbyPlayerList');
+                                                //lobbyPlayerList.innerHTML = '';  // Clear the existing content
+                                                
+                                                data.forEach(player => {
+                                                    // const listItem = document.createElement('li');
+                                                    //listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
+                                                    
+                                                    // Highlight the current player
+                                                    // if (player.id === parseInt(currentPlayerID)) {
+                                                        //     listItem.style.fontWeight = 'bold';
+                                                        // }
+                                                        
+                                                        //   lobbyPlayerList.appendChild(listItem);
+                                                    });
+                                                    console.log(data);
+                                                })
+                                                .catch(error => console.error('Error polling for updates:', error));
+                                                opponentMove = getMove(opponentID)
+                                                if(opponentMove == 'a'){
+                                                    console.log(`player ${opponentID} attacked`)
+                                                }
+                                            }, 2000);  // Poll every 2 seconds (adjust as needed)
+                                        }
+                                        
+                                        
+                                        window.addEventListener('keyup', (e) => {   
+                                            
+                                            
+                                            if (e.defaultPrevented) {
+                                                return; // Do nothing if event already handled
+                                            }  
+                                            
+                                            
+                                            
+                                            switch(e.code){
+                                                
+                                                
+                                                
+                                                
+                                                // Once the game starts it will listen and assign what key is pressed to the player_move variable. Later on the two choices will be compared (duel)
+                                                case "KeyW":
+                                                player1_Move = "a";
+                                                player1_choice = true;
+                                                p1Pic.src = "static/images/attack.jpg";
+                                                p1Wait.style.visibility = "hidden"; 
+                                                p1Pic.style.visibility = "hidden";
+                                                postMove('a')
+                                                console.log(`player ${currentPlayerID} attacked!`);
+                                                
+                                                break;
+                                                case "KeyA":
+                                                player1_Move = "b";
+                                                player1_choice = true;
+                                                p1Pic.src = "pics/block.jpg";
+                                                p1Wait.style.visibility = "hidden"; 
+                                                p1Pic.style.visibility = "hidden";
+                                                break;
+                                                case "KeyD":
+                                                player1_Move = "c";
+                                                player1_choice = true;
+                                                p1Pic.src = "pics/charge.jpg";
+                                                p1Wait.style.visibility = "hidden"; 
+                                                p1Pic.style.visibility = "hidden";
+                                                break;
+                                                
+                                                
+                                                
+                                            }
+                                            
+                                            
+                                        })
+                                        
+                                        opponentMove = getMove(opponentID)
+                                        if(opponentMove == 'a'){
+                                            console.log(`player ${opponentID} attacked`)
+                                        }
+                                        // Call the function to start polling for updates
+                                        pollForUpdates();
+                                        
+                                    </script>
+                                    
+                                    
+                                    
+                                    
+                                </Body>
+                            </Html>
