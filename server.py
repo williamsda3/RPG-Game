@@ -253,7 +253,7 @@ def set_opponent(player_id, opponent_id):
         db.session.commit()
 
 @app.route('/players/get_opponent/<int:player_id>', methods=['POST'])
-def set_opponent(player_id):
+def get_opponent(player_id):
     player = PlayerStats.query.get_or_404(player_id)
     if player:
        return jsonify({'opponent': player.opponent_id})
