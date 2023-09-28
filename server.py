@@ -268,7 +268,7 @@ def post_move(player_id, player_move):
      db.session.commit()
      
 @app.route('/players/<int:player_id>/get_move/', methods=['GET'])
-def post_move(player_id):
+def get_move(player_id):
     # Assuming you have a way to generate a unique ID (replace this with your logic)
     player = PlayerStats.query.get_or_404(player_id)
     if player:
