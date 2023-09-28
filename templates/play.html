@@ -19,9 +19,7 @@
 
                 fetch(`https://serverr-ztub.onrender.com/players/get_opponent/${currentPlayerID}`, {  
                 }).then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
+                    
                     return response.json();
                 })
                  // opponentID is still showwing null, use if statment to get it maybe?
