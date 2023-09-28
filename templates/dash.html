@@ -20,6 +20,7 @@
         function getLobbyID() {
             if (!lobbyID) {
                 lobbyID = prompt("Enter your lobbyID");
+                sessionStorage.setItem('lobbyID', lobbyID);
             }
             return lobbyID;
         }
