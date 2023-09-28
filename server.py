@@ -252,7 +252,7 @@ def set_opponent(player_id, opponent_id):
         player.opponent_id = opponent_id
         db.session.commit()
 
-@app.route('/players/get_opponent/<int:player_id>', methods=['POST'])
+@app.route('/players/get_opponent/<int:player_id>', methods=['GET'])
 def get_opponent(player_id):
     player = PlayerStats.query.get_or_404(player_id)
     if player:
