@@ -33,7 +33,8 @@ class PlayerStats(db.Model):
             'atk': self.atk,
             'lobby_code': self.lobby_code,
             'in_lobby': self.in_lobby,
-            'opponent_id': self.opponent_id
+            'opponent_id': self.opponent_id,
+            'latest_move': self.latest_move
         }
         
 class Invitation(db.Model):

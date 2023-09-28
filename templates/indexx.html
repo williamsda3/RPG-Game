@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href=" static\css\style.css"> 
     <script src="https://kit.fontawesome.com/f2315f2eaa.js" crossorigin="anonymous"></script>
 
    
@@ -479,19 +479,19 @@ function getMove(player){
        console.log(response.json());
     })
 }
-
-function getLobbyID(){
-    fetch(`https://serverr-ztub.onrender.com/players`, {
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-    })
-    .then(data => {
-       return data['lobby_code']);
-    })
+function getLobbyID() {
+    fetch('https://serverr-ztub.onrender.com/players', {})
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+        })
+        .then(data => {
+            return data['lobby_code'];
+        });
 }
+
+
 
 function postMove(move){
     fetch(`https://serverr-ztub.onrender.com/players/${currentPlayerID}/post_move/${move}`, {
@@ -543,6 +543,57 @@ function pollForUpdates() {
 }
 
 
+window.addEventListener('keyup', (e) => {   
+        
+       
+    if (e.defaultPrevented) {
+        return; // Do nothing if event already handled
+    }  
+    
+    
+    
+    switch(e.code){
+        
+        
+        
+        
+        // Once the game starts it will listen and assign what key is pressed to the player_move variable. Later on the two choices will be compared (duel)
+        case "KeyW":
+        player1_Move = "a";
+        player1_choice = true;
+        p1Pic.src = "pics/attack.jpg";
+        p1Wait.style.visibility = "hidden"; 
+        p1Pic.style.visibility = "hidden";
+        postMove('a')
+        console.log(`player ${currentPlayerID} attacked!`);
+        
+        break;
+        case "KeyA":
+        player1_Move = "b";
+        player1_choice = true;
+        p1Pic.src = "pics/block.jpg";
+        p1Wait.style.visibility = "hidden"; 
+        p1Pic.style.visibility = "hidden";
+        break;
+        case "KeyD":
+        player1_Move = "c";
+        player1_choice = true;
+        p1Pic.src = "pics/charge.jpg";
+        p1Wait.style.visibility = "hidden"; 
+        p1Pic.style.visibility = "hidden";
+        break;
+        
+
+       
+    }
+    
+    
+})
+
+opponentMove = getMove(otherPlayerID)
+if(opponentMove == 'a'){
+    console.log(`player ${opponentID} attacked`)
+}
 // Call the function to start polling for updates
 pollForUpdates();
 
