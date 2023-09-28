@@ -461,7 +461,8 @@ class Shadow {
 
 let player1
 let player2
-
+const currentPlayerID = sessionStorage.getItem('playerID');
+const opponentID = sessionStorage.getItem('opponentID');
 
 
 
@@ -561,7 +562,7 @@ window.addEventListener('keyup', (e) => {
         case "KeyW":
         player1_Move = "a";
         player1_choice = true;
-        p1Pic.src = "pics/attack.jpg";
+        p1Pic.src = "static/images/attack.jpg";
         p1Wait.style.visibility = "hidden"; 
         p1Pic.style.visibility = "hidden";
         postMove('a')
