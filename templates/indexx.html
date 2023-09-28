@@ -477,7 +477,7 @@
                                             if (!response.ok) {
                                                 throw new Error('Network response was not ok');
                                             }
-                                            console.log(response.json());
+                                           // console.log(response.json());
                                         })
                                     }
                                     function getLobbyID() {
@@ -494,9 +494,14 @@
                                             if (!response.ok) {
                                                 throw new Error('Network response was not ok');
                                             }
+                                            console.log(response.json());
                                             return response.json();  // Parse response as JSON
                                         })
                                         .then(data => {
+                                            console.log(data) 
+                                             console.log(data['move'])
+                                            console.log(data.move)
+                                          
                                             if (data && data.move) {
                                                 console.log('Move:', data.move);
                                             } else {
@@ -545,7 +550,7 @@
                                             if (opponentMove === 'a') {
                                                 console.log(`player ${opponentID} attacked`);
                                             }
-                                        }, 2000);  // Poll every 2 seconds (adjust as needed)
+                                        }, 10000);  // Poll every 2 seconds (adjust as needed)
                                     }
                                     
                                         
