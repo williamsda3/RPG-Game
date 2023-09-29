@@ -183,20 +183,6 @@
                     let player2_choice = false;
                     
                     
-                    // // Player 1 attributes
-                    // const player1 = {
-                        //     baseHP : 5,
-                        //     ATK : 1,
-                        //     CRG : 0,
-                        //     hasCharge : false,
-                        //     timesATK : 0,
-                        //     removeCharge(){
-                            //         if(player1.hasCharge){
-                                //             player1.ATK = 1;
-                                //             player1.hasCharge = false;
-                                //         }
-                                //     },
-                                //     blockCount : 0
                                 
                                 // }
                                 //perks 
@@ -481,7 +467,7 @@
                                         })
                                         .then(data => {
                                             if (data && data.move) {
-                                               // console.log('Player move:', data.move);
+                                              
                                                 return data.move;
                                             } else {
                                                 //console.error('Move data is undefined or missing.');
@@ -516,7 +502,7 @@
                                         })
                                         .then(data => {
                                             if (data && data.posted_move) {
-                                               // console.log('Posted Move:', data.posted_move);
+                                               
                                             } else {
                                                 console.error('Posted move data is undefined or missing.');
                                             }
@@ -550,14 +536,17 @@
                                                 getMove(opponentID)
                                                 .then(playerMove => {
                                                     if (playerMove !== null) {
-                                                        // Handle the player's move
-                                                       // console.log('Player move:', playerMove);
+                                                        
                                                         
                                                         opponentMove = playerMove
                                                         // Now you can assign it to a variable
                                                         if (opponentMove == 'a'){
                                                             console.log(`Player ${opponentID} Attacked!`);
                                                             player1.HP --;
+                                                        }
+                                                        if (opponentMove == 'c'){
+                                                            console.log(`Player ${opponentID} Charged!`);
+                                                            player2.ATK ++;
                                                         }
                                                         fetch(`https://serverr-ztub.onrender.com/players/${opponentID}/post_move/${null}`, {
                                                             method: 'POST'
@@ -602,6 +591,7 @@
                                                 p1Pic.src = "pics/block.jpg";
                                                 p1Wait.style.visibility = "hidden"; 
                                                 p1Pic.style.visibility = "hidden";
+                                               
                                                 break;
                                                 case "KeyD":
                                                 player1_Move = "c";
@@ -609,6 +599,9 @@
                                                 p1Pic.src = "pics/charge.jpg";
                                                 p1Wait.style.visibility = "hidden"; 
                                                 p1Pic.style.visibility = "hidden";
+                                                postMove('c')
+                                                console.log(`Player ${currentPlayerID} (You) Charged!`);
+
                                                 break;
                                                 
                                                 
@@ -618,10 +611,12 @@
                                             
                                         })
                                         
+                                        /*
                                         opponentMove = getMove(opponentID)
                                         if(opponentMove == 'a'){
                                             console.log(`player ${opponentID} attacked`)
                                         }
+                                        */
                                         // Call the function to start polling for updates
                                         pollForUpdates();
                                         
