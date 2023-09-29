@@ -471,17 +471,28 @@
                                     player2 = new Player();
                                     
                                     
-                                    function getMove(player){
-                                        fetch(`https://serverr-ztub.onrender.com/players/${player}/get_move`, {  
-                                        }).then(response => {
-                                            if (!response.ok) {
-                                                throw new Error('Network response was not ok');
-                                            }
-                                           // console.log(response.json());
-                                        })
+                                    function getMove(player) {
+                                        fetch(`https://serverr-ztub.onrender.com/players/${player}/get_move`, {})
+                                            .then(response => {
+                                                if (!response.ok) {
+                                                    throw new Error('Network response was not ok');
+                                                }
+                                                return response.json();  // Parse response as JSON
+                                            })
+                                            .then(data => {
+                                                if (data && data.move) {
+                                                    console.log('Player move:', data.move);
+                                                    return data.move;
+                                                    // Do something with the player's move
+                                                } else {
+                                                    console.error('Move data is undefined or missing.');
+                                                }
+                                            })
+                                            .catch(error => console.error('Error getting move:', error));
                                     }
+                                    
                                     function getLobbyID() {
-                                       return lobbyID;
+                                        return lobbyID;
                                     }
                                     
                                     
@@ -496,10 +507,6 @@
                                             return response.json();  // Parse response as JSON
                                         })
                                         .then(data => {
-                                            console.log(data);
-                                            console.log(data['posted_move']);
-                                            console.log(data.move);
-                                          
                                             if (data && data.posted_move) {
                                                 console.log('Posted Move:', data.posted_move);
                                             } else {
@@ -512,46 +519,46 @@
                                     
                                     function pollForUpdates() {
                                         const lobbyID = getLobbyID();
-                                    
+                                        
                                         // Set an interval to poll the server every 5 seconds (adjust as needed)
                                         setInterval(() => {
                                             fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
-                                                .then(response => response.json())
-                                                .then(data => {
-                                                    // Assuming the playerID of the current player is stored in sessionStorage
-                                                    const currentPlayerID = sessionStorage.getItem('playerID');
-                                    
-                                                    // Update UI to display the list of lobby players
-                                                    document.getElementById("p1HP").innerHTML = `HP: ${player1.HP}`;
-                                                    document.getElementById("p2HP").innerHTML = `HP: ${player2.HP}`;
-                                                    document.getElementById("p1PWR").innerHTML = `ATK: ${player1.ATK}`;
-                                                    document.getElementById("p2PWR").innerHTML = `ATK: ${player2.ATK}`;
-                                    
-                                                    // const lobbyPlayerList = document.getElementById('lobbyPlayerList');
-                                                    // lobbyPlayerList.innerHTML = '';  // Clear the existing content
-                                    
-                                                    data.forEach(player => {
-                                                        // const listItem = document.createElement('li');
-                                                        // listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
-                                    
-                                                        // Highlight the current player
-                                                        // if (player.id === parseInt(currentPlayerID)) {
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                // Assuming the playerID of the current player is stored in sessionStorage
+                                                const currentPlayerID = sessionStorage.getItem('playerID');
+                                                
+                                                // Update UI to display the list of lobby players
+                                                document.getElementById("p1HP").innerHTML = `HP: ${player1.HP}`;
+                                                document.getElementById("p2HP").innerHTML = `HP: ${player2.HP}`;
+                                                document.getElementById("p1PWR").innerHTML = `ATK: ${player1.ATK}`;
+                                                document.getElementById("p2PWR").innerHTML = `ATK: ${player2.ATK}`;
+                                                
+                                                // const lobbyPlayerList = document.getElementById('lobbyPlayerList');
+                                                // lobbyPlayerList.innerHTML = '';  // Clear the existing content
+                                                
+                                                data.forEach(player => {
+                                                    // const listItem = document.createElement('li');
+                                                    // listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
+                                                    
+                                                    // Highlight the current player
+                                                    // if (player.id === parseInt(currentPlayerID)) {
                                                         //     listItem.style.fontWeight = 'bold';
                                                         // }
-                                    
+                                                        
                                                         //   lobbyPlayerList.appendChild(listItem);
                                                     });
-                                                   // console.log(data);
+                                                    // console.log(data);
                                                 })
                                                 .catch(error => console.error('Error polling for updates:', error));
-                                            
-                                            opponentMove = getMove(opponentID);
-                                            if (opponentMove === 'a') {
-                                                console.log(`player ${opponentID} attacked`);
-                                            }
-                                        }, 10000);  // Poll every 2 seconds (adjust as needed)
-                                    }
-                                    
+                                                
+                                                opponentMove = getMove(opponentID);
+                                                if (opponentMove === 'a') {
+                                                    console.log(`player ${opponentID} attacked`);
+                                                }
+                                            }, 2000);  // Poll every 2 seconds (adjust as needed)
+                                        }
+                                        
                                         
                                         window.addEventListener('keyup', (e) => {   
                                             
