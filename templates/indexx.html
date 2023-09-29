@@ -481,7 +481,7 @@
                                         })
                                         .then(data => {
                                             if (data && data.move) {
-                                                console.log('Player move:', data.move);
+                                               // console.log('Player move:', data.move);
                                                 return data.move;
                                             } else {
                                                 console.error('Move data is undefined or missing.');
@@ -516,7 +516,7 @@
                                         })
                                         .then(data => {
                                             if (data && data.posted_move) {
-                                                console.log('Posted Move:', data.posted_move);
+                                               // console.log('Posted Move:', data.posted_move);
                                             } else {
                                                 console.error('Posted move data is undefined or missing.');
                                             }
@@ -551,7 +551,7 @@
                                                 .then(playerMove => {
                                                     if (playerMove !== null) {
                                                         // Handle the player's move
-                                                        console.log('Player move:', playerMove);
+                                                       // console.log('Player move:', playerMove);
                                                         
                                                         opponentMove = playerMove
                                                         // Now you can assign it to a variable
