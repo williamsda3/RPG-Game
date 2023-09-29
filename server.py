@@ -247,7 +247,7 @@ def view_invites():
         return 'User not authenticated.'
 
 # Route for setting/getting opponent
-@app.route('/players/set_opponent/<int:player_id>/<int:opponent_id>', methods=['GET'])
+@app.route('/players/set_opponent/<int:player_id>/<int:opponent_id>', methods=['POST'])
 def set_opponent(player_id, opponent_id):
     player = PlayerStats.query.get_or_404(player_id)
     if player:

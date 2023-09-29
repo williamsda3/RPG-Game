@@ -485,7 +485,6 @@
                                     }
                                     
                                     
-                                    
                                     function postMove(move) {
                                         fetch(`https://serverr-ztub.onrender.com/players/${currentPlayerID}/post_move/${move}`, {
                                             method: 'POST'
@@ -494,22 +493,22 @@
                                             if (!response.ok) {
                                                 throw new Error('Network response was not ok');
                                             }
-                                            console.log(response.json());
                                             return response.json();  // Parse response as JSON
                                         })
                                         .then(data => {
-                                            console.log(data) 
-                                             console.log(data['move'])
-                                            console.log(data.move)
+                                            console.log(data);
+                                            console.log(data['posted_move']);
+                                            console.log(data.move);
                                           
-                                            if (data && data.move) {
-                                                console.log('Move:', data.move);
+                                            if (data && data.posted_move) {
+                                                console.log('Posted Move:', data.posted_move);
                                             } else {
-                                                console.error('Move data is undefined or missing.');
+                                                console.error('Posted move data is undefined or missing.');
                                             }
                                         })
                                         .catch(error => console.error('Error posting move:', error));
                                     }
+                                    
                                     
                                     function pollForUpdates() {
                                         const lobbyID = getLobbyID();
