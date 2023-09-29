@@ -484,7 +484,7 @@
                                                // console.log('Player move:', data.move);
                                                 return data.move;
                                             } else {
-                                                console.error('Move data is undefined or missing.');
+                                                //console.error('Move data is undefined or missing.');
                                                 return null;
                                             }
                                         })
@@ -556,7 +556,7 @@
                                                         opponentMove = playerMove
                                                         // Now you can assign it to a variable
                                                         if (opponentMove == 'a'){
-                                                            console.log(`player ${opponentID} attacked!`);
+                                                            console.log(`Player ${opponentID} Attacked!`);
                                                             player1.HP --;
                                                         }
                                                         fetch(`https://serverr-ztub.onrender.com/players/${opponentID}/post_move/${null}`, {
@@ -593,7 +593,7 @@
                                                 p1Pic.style.visibility = "hidden";
                                                 postMove('a')
                                                 player2.HP --;
-                                                console.log(`player ${currentPlayerID} attacked!`);
+                                                console.log(`Player ${currentPlayerID} (You) Attacked!`);
                                                 
                                                 break;
                                                 case "KeyA":
