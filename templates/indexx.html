@@ -558,7 +558,9 @@
                                                         if (opponentMove == 'a'){
                                                             console.log(`player ${opponentID} attacked`)
                                                         }
-                                                        
+                                                        fetch(`https://serverr-ztub.onrender.com/players/${opponentID}/post_move/${null}`, {
+                                                            method: 'POST'
+                                                        })
                                                         opponentMove = null;
                                                     }
                                                 })
