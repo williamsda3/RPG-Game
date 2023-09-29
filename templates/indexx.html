@@ -556,7 +556,8 @@
                                                         opponentMove = playerMove
                                                         // Now you can assign it to a variable
                                                         if (opponentMove == 'a'){
-                                                            console.log(`player ${opponentID} attacked`)
+                                                            console.log(`player ${opponentID} attacked!`);
+                                                            player1.HP --;
                                                         }
                                                         fetch(`https://serverr-ztub.onrender.com/players/${opponentID}/post_move/${null}`, {
                                                             method: 'POST'
@@ -591,6 +592,7 @@
                                                 p1Wait.style.visibility = "hidden"; 
                                                 p1Pic.style.visibility = "hidden";
                                                 postMove('a')
+                                                player2.HP --;
                                                 console.log(`player ${currentPlayerID} attacked!`);
                                                 
                                                 break;
