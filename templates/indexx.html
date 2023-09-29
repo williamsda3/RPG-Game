@@ -542,7 +542,7 @@
                                                         // Now you can assign it to a variable
                                                         if (opponentMove == 'a'){
                                                             console.log(`Player ${opponentID} Attacked!`);
-                                                            player1.HP --;
+                                                            player1.HP -= player2.ATK;
                                                         }
                                                         if (opponentMove == 'c'){
                                                             console.log(`Player ${opponentID} Charged!`);
@@ -581,7 +581,7 @@
                                                 p1Wait.style.visibility = "hidden"; 
                                                 p1Pic.style.visibility = "hidden";
                                                 postMove('a')
-                                                player2.HP --;
+                                                player2.HP -= player1.ATK;
                                                 console.log(`Player ${currentPlayerID} (You) Attacked!`);
                                                 
                                                 break;
