@@ -472,24 +472,32 @@
                                     
                                     
                                     function getMove(player) {
-                                        fetch(`https://serverr-ztub.onrender.com/players/${player}/get_move`, {})
-                                            .then(response => {
-                                                if (!response.ok) {
-                                                    throw new Error('Network response was not ok');
-                                                }
-                                                return response.json();  // Parse response as JSON
-                                            })
-                                            .then(data => {
-                                                if (data && data.move) {
-                                                    console.log('Player move:', data.move);
-                                                    return data.move;
-                                                    // Do something with the player's move
-                                                } else {
-                                                    console.error('Move data is undefined or missing.');
-                                                }
-                                            })
-                                            .catch(error => console.error('Error getting move:', error));
+                                        return fetch(`https://serverr-ztub.onrender.com/players/${player}/get_move`, {})
+                                        .then(response => {
+                                            if (!response.ok) {
+                                                throw new Error('Network response was not ok');
+                                            }
+                                            return response.json();  // Parse response as JSON
+                                        })
+                                        .then(data => {
+                                            if (data && data.move) {
+                                                console.log('Player move:', data.move);
+                                                return data.move;
+                                            } else {
+                                                console.error('Move data is undefined or missing.');
+                                                return null;
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error getting move:', error);
+                                            throw error; // rethrow the error for further handling if needed
+                                        });
                                     }
+                                    
+                                    // Example usage
+                                    // Replace with the actual player ID
+                                    
+                                    
                                     
                                     function getLobbyID() {
                                         return lobbyID;
@@ -516,7 +524,7 @@
                                         .catch(error => console.error('Error posting move:', error));
                                     }
                                     
-                                    
+                                    let opponentMove = null;
                                     function pollForUpdates() {
                                         const lobbyID = getLobbyID();
                                         
@@ -534,28 +542,27 @@
                                                 document.getElementById("p1PWR").innerHTML = `ATK: ${player1.ATK}`;
                                                 document.getElementById("p2PWR").innerHTML = `ATK: ${player2.ATK}`;
                                                 
-                                                // const lobbyPlayerList = document.getElementById('lobbyPlayerList');
-                                                // lobbyPlayerList.innerHTML = '';  // Clear the existing content
-                                                
-                                                data.forEach(player => {
-                                                    // const listItem = document.createElement('li');
-                                                    // listItem.textContent = `Player ${player.id} - HP: ${player.hp}, ATK: ${player.atk}`;
-                                                    
-                                                    // Highlight the current player
-                                                    // if (player.id === parseInt(currentPlayerID)) {
-                                                        //     listItem.style.fontWeight = 'bold';
-                                                        // }
-                                                        
-                                                        //   lobbyPlayerList.appendChild(listItem);
-                                                    });
-                                                    // console.log(data);
+                                              
                                                 })
                                                 .catch(error => console.error('Error polling for updates:', error));
                                                 
-                                                opponentMove = getMove(opponentID);
-                                                if (opponentMove === 'a') {
-                                                    console.log(`player ${opponentID} attacked`);
-                                                }
+                                                // Call getMove to fetch the player's move and assign it to a variable
+                                                getMove(opponentID)
+                                                .then(playerMove => {
+                                                    if (playerMove !== null) {
+                                                        // Handle the player's move
+                                                        console.log('Player move:', playerMove);
+                                                        
+                                                        opponentMove = playerMove
+                                                        // Now you can assign it to a variable
+                                                        if (opponentMove == 'a'){
+                                                            console.log(`player ${opponentID} attacked`)
+                                                        }
+                                                        
+                                                        opponentMove = null;
+                                                    }
+                                                })
+                                                .catch(error => console.error('Error:', error));
                                             }, 2000);  // Poll every 2 seconds (adjust as needed)
                                         }
                                         
