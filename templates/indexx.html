@@ -481,37 +481,32 @@
                         }
 
                         
-                        function getResults(player,opponent) {
-                            return fetch(`https://serverr-ztub.onrender.com/players/get_results/${player}/${opponent}`, {})
-                            .then(response => {
+                        async function getResults(player, opponent) {
+                            try {
+                                const response = await fetch(`https://serverr-ztub.onrender.com/players/get_results/${player}/${opponent}`);
+                                
                                 if (!response.ok) {
                                     throw new Error('Network response was not ok');
                                 }
-                                return response.json();  // Parse response as JSON
-                            })
-                            .then(data => {
-                                if (data && data.moves) {
-                                    
-                                    return data.moves;
-                                } else {
-                                    //console.error('Move data is undefined or missing.');
-                                    return null;
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error getting move:', error);
-                                throw error; // rethrow the error for further handling if needed
-                            });
-                        }
-                        async function someFunction(currentPlayerID, opponentID) {
-                            try {
-                                const results = await getResults(currentPlayerID, opponentID);
-                                console.log(results);
+                        
+                                const data = await response.json();
+                                return data.moves; // Assuming you want to return the 'moves' property
                             } catch (error) {
-                                console.error('Error in someFunction:', error);
-                                throw error; // Rethrow the error for further handling if needed
+                                console.error('Error getting results:', error);
+                                throw error;
                             }
                         }
+                        
+                       
+                        
+                        getResults(currentPlayerID, opponentID)
+                            .then(results => {
+                                console.log(results);
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                        
                         
 
                         
@@ -548,7 +543,7 @@
                          player2_Move = null;
                          
                        
-                         function pollForUpdates() {
+                         function pollForUpdates(currentPlayerID, opponentID) {
                             
                         
                             // Set an interval to poll the server every 5 seconds (adjust as needed)
@@ -1228,7 +1223,7 @@
                         }
                         */
                         // Call the function to start polling for updates
-                        pollForUpdates();
+                        pollForUpdates(currentPlayerID, opponentID);
                         
                     </script>
                     

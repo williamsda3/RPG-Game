@@ -282,10 +282,9 @@ def get_move(player_id):
 def get_results(player_id, opponent_id):
     player = PlayerStats.query.get_or_404(player_id)
     opponent = PlayerStats.query.get_or_404(opponent_id)
-    if player.latest_move and opponent.latest_move:
-        return jsonify({'moves': f'{player.latest_move} and {opponent.latest_move}'})
-    elif not player.latest_move or not opponent.latest_move:
-        return jsonify({'moves': 'No moves to give'})
+    if player and opponent:
+        return jsonify({'moves': player.hp}), 200
+    
         
         
 
