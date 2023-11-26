@@ -503,7 +503,16 @@
                                 throw error; // rethrow the error for further handling if needed
                             });
                         }
-
+                        async function someFunction(currentPlayerID, opponentID) {
+                            try {
+                                const results = await getResults(currentPlayerID, opponentID);
+                                console.log(results);
+                            } catch (error) {
+                                console.error('Error in someFunction:', error);
+                                throw error; // Rethrow the error for further handling if needed
+                            }
+                        }
+                        
 
                         
                         // Example usage
@@ -538,67 +547,23 @@
                         
                          player2_Move = null;
                          
-                        function pollForUpdates() {
-                            const lobbyID = getLobbyID();
+                       
+                         function pollForUpdates() {
                             
+                        
                             // Set an interval to poll the server every 5 seconds (adjust as needed)
-                            setInterval(() => {
-                                /* 
-                                fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
-                                .then(response => response.json())
-                                .then(data => {
-                                    // Assuming the playerID of the current player is stored in sessionStorage
-                                    const currentPlayerID = sessionStorage.getItem('playerID');
-                                   
-                                    // Update UI to display the list of lobby players
-                                    document.getElementById("p1HP").innerHTML = `HP: ${player1.HP}`;
-                                    document.getElementById("p2HP").innerHTML = `HP: ${player2.HP}`;
-                                    document.getElementById("p1PWR").innerHTML = `ATK: ${player1.ATK}`;
-                                    document.getElementById("p2PWR").innerHTML = `ATK: ${player2.ATK}`;
-                                    
-                                    
-                                })
-                                .catch(error => console.error('Error polling for updates:', error));
-                                
-                                // Call getMove to fetch the player's move and assign it to a variable
-                                getMove(opponentID)
-                                .then(playerMove => {
-                                    if (playerMove !== null) {
-                                        
-                                        
-                                        player2_Move = playerMove
-                                        // Now you can assign it to a variable
-                                        if (player2_Move == 'a'){
-                                            console.log(`Player ${opponentID} Attacked!`);
-                                            player2_choice = true;
-                                            player1.HP -= player2.ATK;
-                                        }
-                                        if (player2_Move == 'c'){
-                                            console.log(`Player ${opponentID} Charged!`);
-                                            player2_choice = true;
-                                            player2.ATK ++;
-                                        }
-                                        fetch(`https://serverr-ztub.onrender.com/players/${opponentID}/post_move/${null}`, {
-                                            method: 'POST'
-                                        })
-                                        player2_Move = null;
-                                    }
-                                })
-                                .catch(error => console.error('Error:', error));
-                                */
-                                someFunction(currentPlayerID, opponentID);
-                            }, 2000);  // Poll every 2 seconds (adjust as needed)
+                            setInterval(async () => {
+                                try {
+                                    await someFunction(currentPlayerID, opponentID);
+                                } catch (error) {
+                                    console.error('Error in pollForUpdates:', error);
+                                    // Handle the error as needed
+                                }
+                            }, 2000); // Poll every 5 seconds (adjust as needed)
                         }
                         
                         
-                        async function someFunction() {
-                            try {
-                                const results = await getResults(currentPlayerID, opponentID);
-                                console.log(results);
-                            } catch (error) {
-                                console.error(error);
-                            }
-                        }
+                     
                         
                       
                         function updateStats(){
