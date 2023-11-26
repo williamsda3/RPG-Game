@@ -557,7 +557,7 @@
                                     }
                                 })
                                 .catch(error => console.error('Error:', error));
-                            }, 2000);  // Poll every 2 seconds (adjust as needed)
+                            }, 1000);  // Poll every 2 seconds (adjust as needed)
                         }
                         
                         
@@ -635,6 +635,7 @@
                                 p1Wait.style.visibility = "hidden"; 
                                 p1Pic.style.visibility = "hidden";
                                 postMove('c')
+                                player1.ATK ++;
                                 console.log(`Player ${currentPlayerID} (You) Charged!`);
                                 
                                 break;
