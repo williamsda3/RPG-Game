@@ -479,6 +479,32 @@
                                 throw error; // rethrow the error for further handling if needed
                             });
                         }
+
+                        
+                        function getResults(player,opponent) {
+                            return fetch(`https://serverr-ztub.onrender.com/players/get_results/${player}/${opponent}`, {})
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();  // Parse response as JSON
+                            })
+                            .then(data => {
+                                if (data && data.moves) {
+                                    
+                                    return data.moves;
+                                } else {
+                                    //console.error('Move data is undefined or missing.');
+                                    return null;
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error getting move:', error);
+                                throw error; // rethrow the error for further handling if needed
+                            });
+                        }
+
+
                         
                         // Example usage
                         // Replace with the actual player ID
@@ -511,17 +537,19 @@
                         }
                         
                          player2_Move = null;
+                         
                         function pollForUpdates() {
                             const lobbyID = getLobbyID();
                             
                             // Set an interval to poll the server every 5 seconds (adjust as needed)
                             setInterval(() => {
+                                /* 
                                 fetch(`https://serverr-ztub.onrender.com/lobby/${lobbyID}`)
                                 .then(response => response.json())
                                 .then(data => {
                                     // Assuming the playerID of the current player is stored in sessionStorage
                                     const currentPlayerID = sessionStorage.getItem('playerID');
-                                    
+                                   
                                     // Update UI to display the list of lobby players
                                     document.getElementById("p1HP").innerHTML = `HP: ${player1.HP}`;
                                     document.getElementById("p2HP").innerHTML = `HP: ${player2.HP}`;
@@ -557,13 +585,25 @@
                                     }
                                 })
                                 .catch(error => console.error('Error:', error));
+                                */
+                                someFunction(currentPlayerID, opponentID);
                             }, 2000);  // Poll every 2 seconds (adjust as needed)
                         }
                         
                         
+                        async function someFunction() {
+                            try {
+                                const results = await getResults(currentPlayerID, opponentID);
+                                console.log(results);
+                            } catch (error) {
+                                console.error(error);
+                            }
+                        }
+                        
+                      
                         function updateStats(){
-    
-    
+                            
+                          
                             console.log("P1:" + player1.shield);
                             console.log("P2: " +player2.shield);
                             
